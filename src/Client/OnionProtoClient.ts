@@ -6,6 +6,9 @@ export namespace OnionProtoClient {
     export const data: OnionData = new OnionData();
 
     export const view: OnionView = new OnionView()
+
+    //todo: merge single page router
+
 }
 
 

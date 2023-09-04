@@ -1,6 +1,8 @@
 import {OnionControllerKey, OnionJSXElement, OnionRenderReturnType} from "../ONION_COMPONENT_TYPINGS";
 
 export interface OnionController_Props {
+    //todo: implement component type
+
     class?: string;
 }
 
@@ -23,8 +25,8 @@ export abstract class OnionController<PropType extends OnionController_Props> {
     protected abstract _render(): OnionRenderReturnType;
 
     render(): OnionRenderReturnType {
-        // check if visible!
-
+        // assign ref!
+        return this._render();
     }
 
 }

@@ -49,9 +49,10 @@ abstract class OnionObjectField {
         this.name = name;
     }
 
-    listener() {
 
-    }
+    //todo: implement listeners/consumer/subs.
+
+
     setValue(value: OnionValue) {
         if(value == this.value) {
             return;
@@ -59,6 +60,7 @@ abstract class OnionObjectField {
 
         this.value = value
 
+        //todo: notify listeners.
     }
 
 }
@@ -71,4 +73,9 @@ class OnionAttribute extends OnionObjectField {
 
 }
 
+
+//todo: create onion value class.
+    //type
+    //id, string, number, date, object
+    //          Culture:
 type OnionValue = any;

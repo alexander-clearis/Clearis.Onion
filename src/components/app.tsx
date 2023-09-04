@@ -2,6 +2,8 @@ import {h} from 'preact';
 import Header from './header';
 import {Component} from "react";
 import {OnionProtoClient} from "../Client/OnionProtoClient";
+import {OnionController} from "./base/OnionComponent";
+import {OnionContainer} from "./containers/OnionContainer";
 
 
 class App extends Component {
@@ -14,10 +16,19 @@ class App extends Component {
             <div id="app">
                 <Header/>
                 <main>
+                    {/*{*/}
+                    {/*    //todo: fix  createComonents*/}
+                    {/*    OnionProtoClient.view.createComponents(undefined, {*/}
+                    {/*        //json from getPage...*/}
 
 
+                    {/*    })*/}
+                    {/*}*/}
 
+                    <div>
 
+                        {new OnionContainer("asdasf", {class: "red"}, {}).render()}
+                    </div>
 
 
                 </main>
@@ -25,5 +36,6 @@ class App extends Component {
         );
     }
 }
+
 (window as any).ClearisProtoClient = OnionProtoClient;
 export default App;

@@ -5,9 +5,7 @@ import {OnionController_hasChildren} from "../components/base/OnionController_ha
 export class OnionView {
 
     public createComponents(parent: OnionController_hasChildren<OnionController_Props>, component_props: OnionControllerChildren_Props): OnionController<OnionController_Props>[] {
-
-
-
+        //todo: merge pagebuilder
 
         return [] as OnionController<OnionController_Props>[]
     };

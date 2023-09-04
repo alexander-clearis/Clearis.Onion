@@ -43,6 +43,8 @@ export class OnionData {
                 //update refrence field in OnionObject
                 let attribute = onionObject.getAttribute(definedAttribute);
                 if(attribute) {
+                    //todo: create meta
+                    //todo: create OnionObject
 
                 } else {
 
