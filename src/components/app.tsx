@@ -28,6 +28,8 @@ class App extends Component {
                     <div>
 
                         {new OnionContainer("asdasf", {class: "red"}, {}).render()}
+
+
                     </div>
 
 
