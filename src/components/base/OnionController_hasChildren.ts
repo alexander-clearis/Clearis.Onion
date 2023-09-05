@@ -26,4 +26,6 @@ export abstract class OnionController_hasChildren<PropType extends OnionControll
     protected _render(): OnionRenderReturnType {
         return this._children.map(child => child.render());
     }
+
+
 }
