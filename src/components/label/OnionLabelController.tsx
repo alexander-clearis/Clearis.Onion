@@ -6,10 +6,10 @@ import SchemaStore = ContextSchema.SchemaStore;
 import SchemaDefinition = ContextSchema.SchemaDefinition;
 import ContextElement = ContextSchema.ContextElement;
 import Attribute = ContextSchema.Attribute;
+import {h} from "preact";
 
 
 export interface OnionContextConsumer_Props extends OnionController_Props {
-
 }
 
 export abstract class OnionContextConsumer extends OnionController<OnionContextConsumer_Props> implements IContextConsumer {
@@ -25,21 +25,20 @@ export abstract class OnionContextConsumer extends OnionController<OnionContextC
 }
 
 export interface OnionLabel_Props extends OnionController_Props {
-    contextName: string;
+    data?: string;
 
 
 }
 
-export abstract class OnionLabelController extends OnionController<OnionContextConsumer_Props> implements IContextConsumer {
+export class OnionLabelController extends OnionController<OnionLabel_Props> implements IContextConsumer {
 
     protected _render(): OnionRenderReturnType {
-        return undefined;
+        return <div>{this.props.data}</div>;
     }
 
     public getSchema(): ContextSchema.SchemaDefinition {
-        return new SchemaDefinition("context_1", this, ContextElement.create("entity", this, [new Attribute("field", this)]), false);
+        return ;
     };
-
 
 
 }

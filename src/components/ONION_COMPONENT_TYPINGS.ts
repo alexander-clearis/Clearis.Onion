@@ -7,9 +7,12 @@ export type OnionControllerKey = string;
 
 export type OnionJSXElement = JSX.Element | JSX.Element[] | undefined
 
-export type OnionControllerChildren_Props = {
-    [index: OnionControllerKey]: OnionController_Props;
+export type OnionComponentStructure = {
+    [index: OnionControllerKey]: OnionComponentSetUp;
 };
-
+export type OnionComponentSetUp= {
+    component_id: string;
+    props: any;
+}
 
 export type OnionRenderReturnType = any

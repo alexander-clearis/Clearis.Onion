@@ -4,30 +4,31 @@ import {Component} from "react";
 import {OnionProtoClient} from "../Client/OnionProtoClient";
 import {OnionController} from "./base/OnionComponent";
 import {OnionContainer} from "./containers/OnionContainer";
+import {OnionLabelController} from "./label/OnionLabelController";
 
 
 class App extends Component {
 
-
     render() {
-        console.log("test")
 
         return (
             <div id="app">
                 <Header/>
                 <main>
-                    {/*{*/}
-                    {/*    //todo: fix  createComonents*/}
-                    {/*    OnionProtoClient.view.createComponents(undefined, {*/}
-                    {/*        //json from getPage...*/}
-
-
-                    {/*    })*/}
-                    {/*}*/}
 
                     <div>
 
-                        {new OnionContainer("asdasf", {class: "red"}, {}).render()}
+                        {
+                            new OnionContainer("asdasf", {
+                                children: {
+                                    "newkey": {
+                                        component_id: "OnionLabelController",
+                                        props: {
+                                            data: "asdfasdfasdfasdf"
+                                        }
+                                    }
+                                }
+                            },).render()}
 
 
                     </div>
@@ -38,6 +39,7 @@ class App extends Component {
         );
     }
 }
+
 
 (window as any).ClearisProtoClient = OnionProtoClient;
 export default App;

@@ -3,7 +3,7 @@ import {OnionControllerKey, OnionJSXElement, OnionRenderReturnType} from "../ONI
 export interface OnionController_Props {
     //todo: implement component type
 
-    class?: string;
+    field?: string;
 }
 
 export abstract class OnionController<PropType extends OnionController_Props> {
@@ -19,7 +19,7 @@ export abstract class OnionController<PropType extends OnionController_Props> {
     }
 
     get css_class() {
-        return this._props.class ?? "";
+        return this._props.field ?? "";
     }
 
     protected abstract _render(): OnionRenderReturnType;
@@ -27,6 +27,10 @@ export abstract class OnionController<PropType extends OnionController_Props> {
     render(): OnionRenderReturnType {
         // assign ref!
         return this._render();
+    }
+
+    get props(): PropType {
+        return this._props;
     }
 
 }
