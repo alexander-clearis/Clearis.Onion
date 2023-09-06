@@ -16,20 +16,27 @@ class App extends Component {
                 <Header/>
                 <main>
 
-                    <div>
-
+                    <div class={"fixedhtml"}>
                         {
-                            new OnionContainer("asdasf", {
-                                children: {
-                                    "newkey": {
-                                        component_id: "OnionLabelController",
+                            OnionProtoClient.view.createComponents(undefined,
+                                {
+                                    "key1": {
+
+                                        component_id: "OnionContainer",
                                         props: {
-                                            data: "asdfasdfasdfasdf"
+                                            children: {
+                                                "key2":  {
+                                                    component_id: "OnionLabelController",
+                                                    props:  {
+                                                        data: "Dit is test data"
+                                                    }
+
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                            },).render()}
-
+                                }).map(value => value.render())
+                        }
 
                     </div>
 

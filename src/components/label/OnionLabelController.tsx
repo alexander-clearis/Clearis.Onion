@@ -37,9 +37,8 @@ export class OnionLabelController extends OnionController<OnionLabel_Props> impl
     }
 
     public getSchema(): ContextSchema.SchemaDefinition {
-        return ;
+        return;
     };
-
 
 }
 
