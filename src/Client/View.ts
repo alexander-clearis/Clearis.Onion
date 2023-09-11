@@ -1,15 +1,15 @@
-import {OnionController, OnionController_Props} from "../components/base/OnionComponent";
-import {OnionComponentSetUp, OnionComponentStructure} from "../components/ONION_COMPONENT_TYPINGS";
+import {OnionController, ControllerProps} from "../components/base/OnionComponent";
+import {ComponentSetup, ComponentStructure} from "../components/ONION_COMPONENT_TYPINGS";
 import {
     OnionController_hasChildren,
-    OnionController_hasChildren_Props
+    Controller_hasChilderenProps
 } from "../components/base/OnionController_hasChildren";
 import {entries, OnionComponentConstructor} from "../util/known_componentfile";
 
 
-export class OnionView {
+export class View {
 
-    public createComponents(parent: OnionController_hasChildren<OnionController_hasChildren_Props>, componentStructure: OnionComponentStructure): OnionController<OnionController_Props>[] {
+    public createComponents(parent: OnionController_hasChildren<Controller_hasChilderenProps>, componentStructure: ComponentStructure): OnionController<ControllerProps>[] {
         let componentList = [];
         for (let key in componentStructure) {
             let createdComponent;
@@ -24,10 +24,10 @@ export class OnionView {
             }
         }
 
-        return componentList as OnionController<OnionController_Props>[]
+        return componentList as OnionController<ControllerProps>[]
     };
 
-    public createComponent(parent: OnionController_hasChildren<OnionController_hasChildren_Props>, key, setUpProps: OnionComponentSetUp): OnionController<any> {
+    public createComponent(parent: OnionController_hasChildren<Controller_hasChilderenProps>, key, setUpProps: ComponentSetup): OnionController<any> {
         if (key == null) {
             throw new Error("Key shouldn't be null");
         }

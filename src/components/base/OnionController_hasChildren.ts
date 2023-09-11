@@ -1,29 +1,29 @@
 import {
-    OnionControllerChildren,
-    OnionComponentStructure,
-    OnionControllerKey,
-    OnionRenderReturnType
+    ControllerChildren,
+    ComponentStructure,
+    ControllerKey,
+    RenderReturnType
 } from "../ONION_COMPONENT_TYPINGS";
 import {OnionProtoClient} from "../../Client/OnionProtoClient";
-import {OnionController, OnionController_Props} from "./OnionComponent";
+import {OnionController, ControllerProps} from "./OnionComponent";
 
-export interface OnionController_hasChildren_Props extends OnionController_Props {
-    children: OnionComponentStructure;
+export interface Controller_hasChilderenProps extends ControllerProps {
+    children: ComponentStructure;
 }
 
-export abstract class OnionController_hasChildren<PropType extends OnionController_hasChildren_Props> extends OnionController<PropType> {
-    private readonly _children: OnionControllerChildren = [];
+export abstract class OnionController_hasChildren<PropType extends Controller_hasChilderenProps> extends OnionController<PropType> {
+    private readonly _children: ControllerChildren = [];
 
-    constructor(key: OnionControllerKey, props: PropType) {
+    constructor(key: ControllerKey, props: PropType) {
         super(key, props);
         this._children = OnionProtoClient.view.createComponents(this, this.props.children);
     }
 
-    get Children(): OnionControllerChildren {
+    get Children(): ControllerChildren {
         return this._children
     }
 
-    protected _render(): OnionRenderReturnType {
+    protected _render(): RenderReturnType {
         return this._children.map(child => child.render());
     }
 

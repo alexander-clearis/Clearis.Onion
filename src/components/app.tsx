@@ -3,8 +3,9 @@ import Header from './header';
 import {Component} from "react";
 import {OnionProtoClient} from "../Client/OnionProtoClient";
 import {OnionController} from "./base/OnionComponent";
-import {OnionContainer} from "./containers/OnionContainer";
+import {Container} from "./containers/Container";
 import {OnionLabelController} from "./label/OnionLabelController";
+import {entries} from "../util/known_componentfile";
 
 
 class App extends Component {
@@ -40,7 +41,10 @@ class App extends Component {
 
                     </div>
 
+                    <button onClick={() => console.log(entries)}>
 
+
+                    </button>
                 </main>
             </div>
         );

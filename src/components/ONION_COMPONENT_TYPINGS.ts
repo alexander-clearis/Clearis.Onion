@@ -1,18 +1,20 @@
-import {OnionController, OnionController_Props} from "./base/OnionComponent";
+import {OnionController, ControllerProps} from "./base/OnionComponent";
 
 
-export type OnionControllerChildren = OnionController<OnionController_Props>[];
+export type ControllerChildren = OnionController<ControllerProps>[];
 
-export type OnionControllerKey = string;
+export type ControllerKey = string;
 
 export type OnionJSXElement = JSX.Element | JSX.Element[] | undefined
 
-export type OnionComponentStructure = {
-    [index: OnionControllerKey]: OnionComponentSetUp;
-};
-export type OnionComponentSetUp= {
+
+export interface ComponentStructure {
+    [index: ControllerKey]: ComponentSetup;
+}
+
+export interface ComponentSetup {
     component_id: string;
     props: any;
 }
 
-export type OnionRenderReturnType = any
+export type RenderReturnType = any

@@ -1,11 +1,11 @@
-import {OnionData} from "./OnionData";
-import {OnionView} from "./OnionView";
+import {Data} from "./Data";
+import {View} from "./View";
 
 export namespace OnionProtoClient {
     export const host: string = location.host;
-    export const data: OnionData = new OnionData();
+    export const data: Data = new Data();
 
-    export const view: OnionView = new OnionView()
+    export const view: View = new View()
 
     //todo: merge single page router
 

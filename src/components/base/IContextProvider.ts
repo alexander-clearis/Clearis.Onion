@@ -1,7 +1,6 @@
-import {OnionContext} from "../../Client/OnionContext";
+import {Context} from "../../Client/Context";
 import {IContextConsumer} from "./IContextConsumer";
 
 export interface IContextProvider{
-    getContext(): OnionContext;
-    addConsumer(consumer: IContextConsumer): void;
+    getContext(): Context;
 }

@@ -108,7 +108,7 @@ export namespace ContextSchema {
         }
     }
 
-    export class SchemaDefinition {
+    export class Schema {
         readonly used_by: IContextConsumer[] = []
         readonly name: string
         readonly contextElement: ContextElement;
@@ -122,7 +122,7 @@ export namespace ContextSchema {
             this.isList = isList;
         }
 
-        merge(incoming: SchemaDefinition) {
+        merge(incoming: Schema) {
             incoming.used_by.forEach(consumer => {
                 const found = this.used_by.find(exisiting => exisiting == consumer);
                 if (!found) {
@@ -133,24 +133,5 @@ export namespace ContextSchema {
         }
     }
 
-    export class List_SchemaDefinition extends SchemaDefinition{
 
-    }
-
-    export class SchemaStore {
-        private readonly store = new Map<string, SchemaDefinition>();
-
-        getSchemas(): SchemaDefinition[] {
-            return Array.from(this.store.values())
-        }
-        addSchema(schemaDefinition: SchemaDefinition) {
-            let found = this.store.get(schemaDefinition.name)
-            if (found) {
-                found.merge(schemaDefinition)
-            } else {
-                this.store.set(schemaDefinition.name, schemaDefinition);
-            }
-        }
-
-    }
 }
