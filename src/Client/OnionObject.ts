@@ -1,29 +1,23 @@
-import {BaseType, iValue} from "./IValue";
+import {iValue} from "./Data/Value/IValue";
+import {IDataSource} from "./Data/Source/IDataSource";
 
 export type ObjectID = string
 
 export interface ObjectFields {
-    [index: string]: iValue<BaseType>;
-}
-
-export class MetaObject {
-
+    [index: string]: iValue;
 }
 
 
-export class OnionObject {
+export class OnionObject implements IDataSource {
+    readonly discriminator: "IS_SOURCE";
+
     private readonly _ID: ObjectID
-    private readonly _metaObject: MetaObject
 
     private readonly _field: ObjectFields = {
 
     };
 
-    get ID(): ObjectID {
-        return this._ID;
-    }
-
-    get metaObject() {
-        return this._metaObject;
+    get(property_name: string) {
+        return this._field.property_name
     }
 }

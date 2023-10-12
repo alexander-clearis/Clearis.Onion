@@ -1,8 +1,7 @@
-import {IContextConsumer} from "../components/base/IContextConsumer";
-import {ConsumerAttribute, ConsumerPartialSchema} from "./ContextConsumerSchema";
 
 
 export namespace ContextSchema {
+    interface IContextConsumer {};
 
     export class Field {
         readonly name: string;

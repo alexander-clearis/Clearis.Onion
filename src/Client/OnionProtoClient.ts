@@ -1,9 +1,10 @@
-import {Data} from "./Data";
+import {State} from "./Data/Source/State";
 import {View} from "./View";
+import {DataContext} from "./Data/context/Context";
 
 export namespace OnionProtoClient {
     export const host: string = location.host;
-    export const data: Data = new Data();
+    export const data: State = new State();
 
     export const view: View = new View()
 

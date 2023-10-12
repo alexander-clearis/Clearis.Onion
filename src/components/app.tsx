@@ -1,15 +1,11 @@
 import {h} from 'preact';
 import Header from './header';
-import {Component} from "react";
+import {Component} from "preact";
 import {OnionProtoClient} from "../Client/OnionProtoClient";
-import {OnionController} from "./base/OnionComponent";
-import {Container} from "./containers/Container";
-import {OnionLabelController} from "./label/OnionLabelController";
-import {entries} from "../util/known_componentfile";
+import {BaseComponentProps} from "../Client/Component/ViewController";
 
 
 class App extends Component {
-
     render() {
 
         return (
@@ -19,32 +15,17 @@ class App extends Component {
 
                     <div class={"fixedhtml"}>
                         {
-                            OnionProtoClient.view.createComponents(undefined,
-                                {
-                                    "key1": {
-
-                                        component_id: "OnionContainer",
-                                        props: {
-                                            children: {
-                                                "key2":  {
-                                                    component_id: "OnionLabelController",
-                                                    props:  {
-                                                        data: "Dit is test data"
-                                                    }
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                }).map(value => value.render())
+                            OnionProtoClient.view.createPage({
+                                "123456": {
+                                    discriminator: "SimpleController",
+                                    caption: "thisIsApath"
+                                } as BaseComponentProps
+                            })
                         }
 
                     </div>
 
-                    <button onClick={() => console.log(entries)}>
 
-
-                    </button>
                 </main>
             </div>
         );

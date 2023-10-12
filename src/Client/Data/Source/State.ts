@@ -1,4 +1,6 @@
-import {ObjectID, OnionObject} from "./OnionObject";
+import {ObjectID, OnionObject} from "../../OnionObject";
+import {IDataSource} from "./IDataSource";
+import {iValue} from "../Value/IValue";
 
 type DataResult = {
     objects: { [index: string]: dataObject }
@@ -9,7 +11,7 @@ function isSingleObjectID(value: ObjectID | ObjectID[]): value is ObjectID {
     return typeof value == "string"
 }
 
-export class Data {
+export class State {
 
     private _store: Map<ObjectID, OnionObject> = new Map();
 
@@ -53,4 +55,3 @@ export class Data {
 
 
 }
-
