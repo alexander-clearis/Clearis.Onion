@@ -3,12 +3,12 @@ import {Subscribable} from "../subscriber/Subscribable";
 import {ISubscribable} from "../subscriber/ISubscribable";
 import {IDataSource, isSourceable} from "../Source/IDataSource";
 
+export type ValueSet<Type extends ValueType = BaseValueType> = {
+    [index: string]: iValue<Type>
 
-export type ObjectSet = {
-    [index: string]: OnionObject
 }
-export type BaseValueType = string | number | Date | bigint
-export type ValueType = BaseValueType | OnionObject | ObjectSet;
+export type BaseValueType = string | number | Date | bigint | OnionObject
+export type ValueType = BaseValueType | ValueSet;
 
 export interface iValue<Type extends ValueType = ValueType> extends ISubscribable<Type> {
     value: Type | undefined;
@@ -26,5 +26,14 @@ export abstract class AbstractValue<Type extends ValueType = ValueType> extends 
 
     get value(): Type {
         return this._value
+    }
+}
+
+
+export class ValueList<Type extends BaseValueType = BaseValueType> extends AbstractValue<ValueSet<Type>> implements IDataSource<Type> {
+    readonly discriminator: "IS_SOURCE";
+
+    get(id?: string): iValue<Type> | undefined {
+        return this.value[id];
     }
 }

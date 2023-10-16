@@ -10,9 +10,9 @@ export function isSourceable(object: any): object is IDataSource {
 }
 
 
-export interface IDataSource {
+export interface IDataSource<Type extends ValueType = ValueType> {
     readonly discriminator: "IS_SOURCE"
 
-    get(id?: string): iValue | undefined
+    get(id?: string): iValue<Type> | undefined
 }
 

@@ -1,6 +1,6 @@
 import {State} from "./Data/Source/State";
 import {View} from "./View";
-import {DataContext} from "./Data/context/Context";
+
 
 export namespace OnionProtoClient {
     export const host: string = location.host;
