@@ -1,7 +1,7 @@
-import {BaseComponentProps, ViewController} from "./ViewController";
+import {BaseComponentProps, ViewController} from "../base/ViewController";
 import {ComponentChild} from "preact";
-import {IDataSource} from "../Data/Source/IDataSource";
-import {OnionProtoClient} from "../OnionProtoClient";
+import {IDataSource} from "../../../core/IDataSource";
+import {OnionProtoClient} from "../../../core/OnionProtoClient";
 
 
 export interface Content {

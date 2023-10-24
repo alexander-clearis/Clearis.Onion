@@ -1,7 +1,7 @@
-import {ObjectID, OnionObject} from "../../OnionObject";
-import {Subscribable} from "../subscriber/Subscribable";
-import {ISubscribable} from "../subscriber/ISubscribable";
-import {IDataSource, isSourceable} from "../Source/IDataSource";
+import {ObjectID, OnionObject} from "../object/OnionObject";
+import {Subscribable} from "../binding/Subscribable";
+import {ISubscribable} from "../binding/ISubscribable";
+import {IDataSource, isSourceable} from "../../core/IDataSource";
 
 export type ValueSet<Type extends ValueType = BaseValueType> = {
     [index: string]: iValue<Type>
@@ -15,7 +15,13 @@ export interface iValue<Type extends ValueType = ValueType> extends ISubscribabl
 }
 
 export abstract class AbstractValue<Type extends ValueType = ValueType> extends Subscribable<Type> implements iValue<Type> {
-    private _value: Type
+    private _value?: Type
+
+
+    constructor(initial?: Type) {
+        super();
+        this._value = initial;
+    }
 
     set value(value: Type) {
         if (this._value != value) {
@@ -31,9 +37,14 @@ export abstract class AbstractValue<Type extends ValueType = ValueType> extends 
 
 
 export class ValueList<Type extends BaseValueType = BaseValueType> extends AbstractValue<ValueSet<Type>> implements IDataSource<Type> {
-    readonly discriminator: "IS_SOURCE";
+    readonly discriminator = "IS_SOURCE";
 
     get(id?: string): iValue<Type> | undefined {
         return this.value[id];
     }
 }
+
+export class SimpleValue extends AbstractValue {
+
+}
+

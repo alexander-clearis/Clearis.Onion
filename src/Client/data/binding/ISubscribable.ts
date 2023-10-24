@@ -1,4 +1,4 @@
-import {ValueType} from "../Value/IValue";
+import {ValueType} from "../values/IValue";
 import {Subscribable} from "./Subscribable";
 export type SubscriberCallbackMethod<Type extends ValueType = ValueType> = (value: Type) => void
 

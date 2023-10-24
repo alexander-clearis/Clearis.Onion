@@ -1,4 +1,4 @@
-import {ContainerController, ContainerProps} from "./ContainerController";
+import {ContainerController, ContainerProps} from "../container/ContainerController";
 
 export interface PageProps extends ContainerProps {
 

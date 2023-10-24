@@ -1,10 +1,10 @@
 import {ComponentChild} from "preact";
-import {State} from "../Data/Source/State";
-import {IDataSource} from "../Data/Source/IDataSource";
+import {Data} from "../../../core/Data";
+import {IDataSource} from "../../../core/IDataSource";
 
 
 export interface BaseComponentProps {
-    readonly discriminator: string;
+    readonly componentType: string;
 }
 
 

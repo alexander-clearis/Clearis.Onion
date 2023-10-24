@@ -1,13 +1,13 @@
-import {ValueType} from "../Value/IValue";
+import {ValueType} from "../values/IValue";
 import {ISubscribable, SubscriberCallbackMethod} from "./ISubscribable";
 
 
 export class Subscribable<Type extends ValueType = ValueType> implements ISubscribable {
-    private _registeredCallbacks: SubscriberCallbackMethod<Type>[]
+    private _registeredCallbacks: SubscriberCallbackMethod<Type>[] = []
 
     callSubscribers(value: Type) {
-        this._registeredCallbacks.forEach(registerd_callback => {
-            registerd_callback(value);
+        this._registeredCallbacks.forEach(registered_callback => {
+            registered_callback(value);
         })
     }
 

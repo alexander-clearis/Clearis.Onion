@@ -1,31 +1,31 @@
 import {Component, ComponentChild, h, RenderableProps} from "preact";
-import {BaseComponentProps, ViewController} from "../../Client/Component/ViewController";
-import {ValueBinding} from "../../Client/Data/Value/ValueBinding";
-import {IDataSource} from "../../Client/Data/Source/IDataSource";
+import {BaseComponentProps, ViewController} from "../private/base/ViewController";
+import {OnewWay_ValueBinding} from "../../data/binding/OnewWay_ValueBinding";
+import {IDataSource} from "../../core/IDataSource";
 
 
 export interface SimpleProps extends BaseComponentProps {
-    caption: string
+    path: string
 }
 
 export class SimpleController extends ViewController<SimpleProps> {
     getRetrievalSchema() {
-        return this.props.caption;
+        return this.props.path;
     }
 
     render(): ComponentChild {
-        return undefined;
+        return <SimpleComponent path={this.props.path} source={this.dataSource}/>;
     }
 
 
 }
 
 export class SimpleComponent extends Component<{ path: string, source: IDataSource }, { value: any }> {
-    binding?: ValueBinding
+    binding?: OnewWay_ValueBinding
 
 
     componentDidMount() {
-        this.binding = new ValueBinding(this.props.source, this.props.path)
+        this.binding = new OnewWay_ValueBinding(this.props.source, this.props.path)
         this.binding.subscribe(this.valueBind);
     }
 
@@ -38,6 +38,6 @@ export class SimpleComponent extends Component<{ path: string, source: IDataSour
     }
 
     render(props?: RenderableProps<{ path: string; source: IDataSource }>, state?: Readonly<{ value: any }>, context?: any): ComponentChild {
-        return <p> {this.state.value}</p>;
+        return <p> {this.state.value} </p>;
     }
 }

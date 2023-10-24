@@ -1,21 +1,21 @@
-import {ValueType, iValue} from "./IValue";
-import {Subscribable} from "../subscriber/Subscribable";
-import {IDataSource, isSourceable} from "../Source/IDataSource";
+import {ValueType, iValue} from "../values/IValue";
+import {Subscribable} from "./Subscribable";
+import {IDataSource, isSourceable} from "../../core/IDataSource";
 
-import {SubscriberCallbackMethod} from "../subscriber/ISubscribable";
+import {SubscriberCallbackMethod} from "./ISubscribable";
 
 const pathSeparator = "/"
 
 type PathBindingRecord<T extends ValueType = ValueType> = {
     path: string;
-    value?: iValue<T>,
-    callback?: SubscriberCallbackMethod<T>
+    resolvesTo?: iValue<T>,
+    onChange?: SubscriberCallbackMethod<T>
 };
 
-export class ValueBinding<Type extends ValueType = ValueType> extends Subscribable<Type> {
+export class OnewWay_ValueBinding<Type extends ValueType = ValueType> extends Subscribable<Type> {
 
-    private pathBindingRecords: PathBindingRecord[];
-    private endPoint: iValue<Type> | undefined;
+    protected pathBindingRecords: PathBindingRecord[];
+    protected endPoint?: iValue<Type>;
 
      constructor(private _source: IDataSource, private _query: string) {
         super();
@@ -24,6 +24,7 @@ export class ValueBinding<Type extends ValueType = ValueType> extends Subscribab
     }
 
     get(): Type | undefined {
+
         return this.endPoint?.value;
     }
 
@@ -42,41 +43,46 @@ export class ValueBinding<Type extends ValueType = ValueType> extends Subscribab
     public refresh(from?: string | number) {
         const refreshFromIndex = this.getRefreshFromIndex(from)
 
-        for (let iteratorIndex = 0; iteratorIndex < this.pathBindingRecords.length; iteratorIndex++) {
-            const currentIndex = refreshFromIndex + iteratorIndex;
+        for (let currentIndex = refreshFromIndex; currentIndex < this.pathBindingRecords.length; currentIndex++) {
             let valueToRefresh = this.pathBindingRecords[currentIndex];
 
 
             //unsubscribe!
-            if (valueToRefresh.callback) {
-                valueToRefresh.value.unsubscribe(valueToRefresh.callback);
+            if (valueToRefresh.onChange) {
+                valueToRefresh.resolvesTo.unsubscribe(valueToRefresh.onChange);
             }
 
             //refresh
-            valueToRefresh.value = this.getSource(currentIndex).get(valueToRefresh.path);
+            valueToRefresh.resolvesTo = this.getSource(currentIndex)?.get(valueToRefresh.path);
 
             //subscribe
-            if (valueToRefresh.value) {
-                valueToRefresh.value.subscribe((value) => {
+            if (valueToRefresh.resolvesTo != undefined) {
+                valueToRefresh.resolvesTo.subscribe((value) => {
                     this.refresh(currentIndex)
                 })
+            } else {
+                break
             }
         }
 
-        this.endPoint = this.pathBindingRecords[this.pathBindingRecords.length - 1].value as iValue<Type>;
-        this.callSubscribers(this.endPoint.value)
+        this.endPoint = this.pathBindingRecords[this.pathBindingRecords.length - 1].resolvesTo as iValue<Type>;
+        this.callSubscribers(this.endPoint?.value)
     }
 
     private getSource(index: number): IDataSource {
         if (index === 0) {
             return this._source;
         }
+
         let source = this.pathBindingRecords[index - 1];
-        if (isSourceable(source.value)) {
-            return source.value
-        } else {
-            throw new Error(`"${source.path}", can't be used as a source in a path. At: ${this._query}`)
+        if(source.resolvesTo.value != undefined) {
+            if (isSourceable(source.resolvesTo.value)) {
+                return source.resolvesTo.value
+            } else {
+                throw new Error(`"${source.path}", can't be used as a source in a path. At: ${this._query}`)
+            }
         }
+        return undefined
     }
 
     private getRefreshFromIndex(from: string | number): number {
@@ -93,4 +99,3 @@ export class ValueBinding<Type extends ValueType = ValueType> extends Subscribab
 
 
 }
-
