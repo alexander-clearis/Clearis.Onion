@@ -1,9 +1,10 @@
-import {Subscribable} from "../binding/Subscribable";
-import {IDataSource} from "../../core/IDataSource";
-import {AbstractValue, iValue, ValueType} from "../values/IValue";
-import {Communication} from "../dataExchange/DataExchange";
+import {Subscribable} from "../../data/binding/private/Subscribable";
+import {IDataSource} from "../IDataSource";
+import {AbstractValue, iValue} from "../../data/values/IValue";
+import {Communication} from "../DataExchange";
+import {GlobalValueType} from "../../data/values/GlobalValueType";
 
-export abstract class Context<Type extends ValueType = ValueType> extends Subscribable<Type> implements IDataSource, iValue<Type> {
+export abstract class Context<Type extends GlobalValueType = GlobalValueType> extends Subscribable<Type> implements IDataSource, iValue<Type> {
     readonly discriminator = "IS_SOURCE";
     protected readonly communication: Communication;
     value: Type | undefined;

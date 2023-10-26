@@ -1,8 +1,7 @@
 import {Component, ComponentChild, h, RenderableProps} from "preact";
 import {BaseComponentProps, ViewController} from "../private/base/ViewController";
-import {OnewWay_ValueBinding} from "../../data/binding/OnewWay_ValueBinding";
 import {IDataSource} from "../../core/IDataSource";
-import {TwoWay_ValueBinding} from "../../data/binding/TwoWay_ValueBinding";
+import {StringInputValueBinding} from "../../data/binding/public/StringValueBinding";
 
 
 export interface SimpleInputProps extends BaseComponentProps {
@@ -22,10 +21,10 @@ export class SimpleInputController extends ViewController<SimpleInputProps> {
 }
 
 export class SimpleInputComponent extends Component<{ path: string, source: IDataSource }, { value: any }> {
-    binding?: TwoWay_ValueBinding<string>
+    binding?: StringInputValueBinding
 
     componentDidMount() {
-        this.binding = new TwoWay_ValueBinding<string>(this.props.source, this.props.path)
+        this.binding = new StringInputValueBinding(this.props.source, this.props.path, {required: true})
         this.binding.subscribe(this.valueBind);
     }
 

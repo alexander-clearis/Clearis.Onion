@@ -26,14 +26,10 @@ export class OnionObject implements IDataSource {
     constructor(id: ObjectID) {
         this._ID = id;
     }
-
-
 }
 
 
 export class MockObject extends OnionObject {
-
-
     constructor(id: ObjectID, fields: ObjectFields) {
         super(id);
         this._field = fields;

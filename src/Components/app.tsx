@@ -1,18 +1,14 @@
 import {h} from 'preact';
-import Header from './header';
 import {Component} from "preact";
 import {OnionProtoClient} from "../Client/core/OnionProtoClient";
-import {BaseComponentProps} from "../Client/ui/private/base/ViewController";
-import {PageContext} from "../Client/data/context/PageContext";
-import {MockContext} from "../Client/data/context/DataContext";
-import {MockConnector} from "../Client/data/dataExchange/DataExchange";
+import {PageContext} from "../Client/core/context/PageContext";
+import {L_MockContext, S_MockContext} from "../Client/core/context/DataContext";
+import {MockConnector} from "../Client/core/DataExchange";
 
-(window as any).OnionProtoClient = OnionProtoClient;
 
 
 class App extends Component {
     render() {
-
         const content = {
             "GarageName": {
                 componentType: "SimpleLabel",
@@ -22,7 +18,6 @@ class App extends Component {
                 componentType: "SimpleLabel",
                 path: "garage/address"
             },
-
             "SampleInput": {
                 componentType: "SimpleInput",
                 path: "garage/name"
@@ -39,15 +34,16 @@ class App extends Component {
                 componentType: "SimpleLabel",
                 path: "garage/currentCar/owner/name"
             },
-
         };
 
+
+
         const pageContext = new PageContext()
-        pageContext.add("garage", new MockContext(new MockConnector()))
+        pageContext.add("garage", new S_MockContext(new MockConnector(), "123456789"))
+        pageContext.add("cars", new L_MockContext(new MockConnector(), ["111222333", "999000999"]))
 
         return (
             <div id="app">
-                <Header/>
                 <main>
                     <div class={"fixedhtml"}>
                         {

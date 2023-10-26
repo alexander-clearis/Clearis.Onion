@@ -1,7 +1,5 @@
-import {ValueType, iValue} from "../data/values/IValue";
-import {OnionObject} from "../data/object/OnionObject";
-import {OnionProtoClient} from "./OnionProtoClient";
-import {ISubscribable} from "../data/binding/ISubscribable";
+import {iValue} from "../data/values/IValue";
+import {GlobalValueType} from "../data/values/GlobalValueType";
 
 const DataSourceDiscriminator = "IS_SOURCE"
 
@@ -10,7 +8,7 @@ export function isSourceable(object: any): object is IDataSource {
 }
 
 
-export interface IDataSource<Type extends ValueType = ValueType> {
+export interface IDataSource<Type extends GlobalValueType = GlobalValueType> {
     readonly discriminator: "IS_SOURCE"
 
     get(id?: string): iValue<Type> | undefined

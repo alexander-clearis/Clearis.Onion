@@ -1,8 +1,8 @@
-import {ValueType} from "../values/IValue";
 import {ISubscribable, SubscriberCallbackMethod} from "./ISubscribable";
+import {GlobalValueType} from "../../values/GlobalValueType";
 
 
-export class Subscribable<Type extends ValueType = ValueType> implements ISubscribable {
+export class Subscribable<Type extends GlobalValueType = GlobalValueType> implements ISubscribable {
     private _registeredCallbacks: SubscriberCallbackMethod<Type>[] = []
 
     callSubscribers(value: Type) {

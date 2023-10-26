@@ -1,7 +1,8 @@
 import {Component, ComponentChild, h, RenderableProps} from "preact";
 import {BaseComponentProps, ViewController} from "../private/base/ViewController";
-import {OnewWay_ValueBinding} from "../../data/binding/OnewWay_ValueBinding";
+import {AbstractValueBinding} from "../../data/binding/private/ValueBinding";
 import {IDataSource} from "../../core/IDataSource";
+import {StringValueBinding} from "../../data/binding/public/StringValueBinding";
 
 
 export interface SimpleProps extends BaseComponentProps {
@@ -21,11 +22,11 @@ export class SimpleController extends ViewController<SimpleProps> {
 }
 
 export class SimpleComponent extends Component<{ path: string, source: IDataSource }, { value: any }> {
-    binding?: OnewWay_ValueBinding
+    binding?: AbstractValueBinding
 
 
     componentDidMount() {
-        this.binding = new OnewWay_ValueBinding(this.props.source, this.props.path)
+        this.binding = new StringValueBinding(this.props.source, this.props.path, {})
         this.binding.subscribe(this.valueBind);
     }
 
