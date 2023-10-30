@@ -1,13 +1,16 @@
 import {iValue} from "../../values/IValue";
 import {Subscribable} from "./Subscribable";
 import {IDataSource, isSourceable} from "../../../core/IDataSource";
-
 import {SubscriberCallbackMethod} from "./ISubscribable";
 import {GlobalValueType} from "../../values/GlobalValueType";
 import {ValueProperties} from "../public/ValueBindingProps";
 import BaseDisplayValueProperties = ValueProperties.BaseDisplayValueProperties;
 import ValueFormatType = ValueProperties.ValueFormatType;
 import BaseInputValueProperties = ValueProperties.BaseInputValueProperties;
+import {IHasValidationState} from "../../../ui/private/input/IHasValidationState";
+import {ValueUtils} from "../../values/ValueUtils";
+import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
+import GlobalValidationStateType = ValueUtils.Validation.GlobalValidationStateType;
 
 const pathSeparator = "/"
 
@@ -18,9 +21,9 @@ type PathBindingRecord<T extends GlobalValueType = GlobalValueType> = {
 };
 
 
-export interface InputValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseInputValueProperties = BaseInputValueProperties> extends AbstractValueBinding<Type, ValuePropertyType> {
-    set(value: Type): void
-    isValid(value: Type): boolean
+export interface InputValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseInputValueProperties = BaseInputValueProperties, ValidationState extends GlobalValidationStateType = GeneralValidationState> extends AbstractValueBinding<Type, ValuePropertyType> {
+    set(value: Type, validationTarget?: IHasValidationState<ValidationState>): void
+    isRequired: boolean
 }
 
 export abstract class AbstractValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseDisplayValueProperties = BaseDisplayValueProperties> extends Subscribable<Type> {
@@ -126,8 +129,10 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
     abstract getFormatted(): string | undefined
 
 
-    protected setValue(value: Type) {
-
+    protected setValue(value: Type | undefined) {
+        if(this.endPoint) {
+            this.endPoint.value = value
+        }
     }
 
 }

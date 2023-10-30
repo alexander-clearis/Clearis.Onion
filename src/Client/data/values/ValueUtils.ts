@@ -1,12 +1,18 @@
 export namespace ValueUtils {
-    import StringValidationError = ValueUtils.String.StringValidationError;
-    type GeneralValidationState = "SUCCESSFUL" | "IS_REQUIRED"
-    export type GlobalValidationState = GeneralValidationState | StringValidationError
+
+    export namespace Validation {
+        export type GlobalValidationStateType = GeneralValidationState | StringValidationState
+
+        export enum GeneralValidationState {IS_REQUIRED}
+
+        export enum StringValidationState {REGEX, minValue, maxValue }
+    }
+
 
     export namespace String {
-        export type StringValidationError = GeneralValidationState | "MIN_VALUE" | "MAX_VALUE" | "REGEX"
 
-        export type CaseTransformMethod = "Uppercase" | "Lowercase" | "Capitalize";
+
+        export enum CaseTransformMethod {UPPERCASE = "Uppercase", LOWERCASE = "Lowercase", CAPITALIZE = "Capitalize"}
 
         //todo: write doc
         ///Uppercase, Zet alle tekst om in hoofdletters
@@ -21,11 +27,11 @@ export namespace ValueUtils {
             }
 
             switch (method) {
-                case "Uppercase":
+                case CaseTransformMethod.UPPERCASE:
                     return value.toUpperCase();
-                case "Lowercase":
+                case CaseTransformMethod.LOWERCASE:
                     return value.toLowerCase();
-                case "Capitalize":
+                case CaseTransformMethod.CAPITALIZE:
                     return _capitalize(value);
             }
         }
@@ -46,6 +52,17 @@ export namespace ValueUtils {
         export function applyRegexReplace(value: string, method: RegexReplaceType): string {
             //todo: write doc
             return value.replaceAll(method[0], method[1]);
+        }
+
+        //todo: write doc
+        //https://www.freecodecamp.org/news/check-if-string-is-empty-or-null-javascript/#:~:text=is%20not%20empty.-,Using%20the%20trim%20Method,-Sometimes%2C%20a%20string
+        export function stringIsNotEmpty(value: string | null | undefined): value is string {
+            return typeof value === "string" && value.trim().length >= 1;
+        }
+
+        export function stringIsEmpty(value: string | null | undefined): boolean {
+            //todo: implementStringIsEMPTY!!
+            return !stringIsNotEmpty(value)
         }
     }
 }

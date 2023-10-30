@@ -2,7 +2,6 @@ import {BaseValueType} from "../../values/GlobalValueType";
 import {ValueUtils} from "../../values/ValueUtils";
 
 export namespace ValueProperties {
-    export type ValueCaseTransformType = "Uppercase" | "Lowercase" | "Capitalize"
     export type ValueScaleType = {}
     export type ValueFormatType = {}
 
@@ -18,6 +17,7 @@ export namespace ValueProperties {
     export namespace String {
         import RegexType = ValueUtils.String.RegexType;
         import ValuePropertyRegexReplace = ValueUtils.String.RegexReplaceType;
+        import CaseTransformMethod = ValueUtils.String.CaseTransformMethod;
 
         export interface DisplayValueProperties extends BaseDisplayValueProperties {
         }
@@ -25,7 +25,7 @@ export namespace ValueProperties {
         export interface InputValueProperties extends DisplayValueProperties, BaseInputValueProperties<string> {
             minValue?: number
             maxValue?: number
-            caseTransform?: ValueCaseTransformType
+            useCaseTransform?: CaseTransformMethod
             regex?: RegexType
             regexReplace?: ValuePropertyRegexReplace
         }
