@@ -1,16 +1,28 @@
+import {Culture} from "../../core/Culture";
+import {OnionProtoClient} from "../../core/OnionProtoClient";
+
 export namespace ValueUtils {
 
     export namespace Validation {
-        export type GlobalValidationStateType = GeneralValidationState | StringValidationState
+        export type GlobalValidationStateType = GeneralValidationState | StringValidationState | NumberValidationState
 
         export enum GeneralValidationState {IS_REQUIRED}
 
-        export enum StringValidationState {REGEX, minValue, maxValue }
+        export enum StringValidationState {REGEX, MIN_VALUE, MAX_VALUE }
+
+        export enum NumberValidationState {MIN_VALUE, MAX_VALUE, NaN}
+
+        export class ValidationError extends Error {
+
+            constructor(state: GlobalValidationStateType, message: string) {
+                super(message);
+
+            }
+        }
     }
 
 
-    export namespace String {
-
+    export namespace _String {
 
         export enum CaseTransformMethod {UPPERCASE = "Uppercase", LOWERCASE = "Lowercase", CAPITALIZE = "Capitalize"}
 
@@ -20,6 +32,10 @@ export namespace ValueUtils {
         // Capitalize, zet alle eerste letters van woorden om in hoofdletters. Voorbeeld: dit is een zin, wordt dan: Dit Is Een Zin.
 
         export function applyCaseTransform(value: string, method: CaseTransformMethod): string {
+            if (String_isNullOrEmpty(value) || method == undefined) {
+                return value;
+            }
+
             function _capitalize(sentence: string) {
                 return sentence.split(" ").map((word) => {
                     return word[0].toUpperCase() + word.substring(1);
@@ -38,7 +54,14 @@ export namespace ValueUtils {
 
         export type RegexType = RegExp | string;
 
-        export function matchesRegex(value: string, regex: RegexType): any {
+        export function matchesRegex(value: string, regex: RegexType): boolean {
+            if (regex == undefined) {
+                return true;
+            }
+            if (String_isNullOrEmpty(value)) {
+                return false;
+            }
+
             if (typeof regex == "string") {
                 return new RegExp(regex).test(value);
             } else {
@@ -50,19 +73,62 @@ export namespace ValueUtils {
         export type RegexReplaceType = [searchValue: RegexType, replaceValue: string];
 
         export function applyRegexReplace(value: string, method: RegexReplaceType): string {
+            if (String_isNullOrEmpty(value) || method == undefined) {
+                return value;
+            }
+
             //todo: write doc
             return value.replaceAll(method[0], method[1]);
         }
 
+        //todo: check is null
+        //todo: write Unit Test
         //todo: write doc
-        //https://www.freecodecamp.org/news/check-if-string-is-empty-or-null-javascript/#:~:text=is%20not%20empty.-,Using%20the%20trim%20Method,-Sometimes%2C%20a%20string
-        export function stringIsNotEmpty(value: string | null | undefined): value is string {
-            return typeof value === "string" && value.trim().length >= 1;
+        //true:     "dit is een valid string"
+        //false:    undefined
+        //          null
+        //          "  ", and all other 'whitespaces'
+        export function String_isSet(value: string | null | undefined): value is string {
+            return typeof value === "string" && value.trim().length > 0;
+        }
+        //true:     undefined
+        //          null
+        //          "  ", and all other 'whitespaces'
+        //false:    "dit is een valid string"
+        export function String_isNullOrEmpty(value: string | null | undefined): boolean {
+            //todo: implementStringIsEMPTY!!
+            return !String_isSet(value)
+        }
+    }
+
+    export namespace _Number {
+
+        export function Number_isSet(value: number | null | undefined): value is number {
+            return typeof value === "number"
+        }
+        export function Number_isNaN(value: number | undefined): boolean {
+            return Number.isNaN(value)
         }
 
-        export function stringIsEmpty(value: string | null | undefined): boolean {
-            //todo: implementStringIsEMPTY!!
-            return !stringIsNotEmpty(value)
+        export function Number_isNullOrEmpty(value: number | null | undefined): value is undefined {
+            return !Number_isSet(value);
         }
+
+
+
+        export function maxValueOfResolve<T>(array: T[], resolve: (value: T) => number): T {
+            return array.reduce(function (prev, current) {
+                return (prev && resolve(prev) > resolve(current)) ? prev : current
+            })
+        }
+
+        export function minValueOfResolve<T>(array: T[], resolve: (value: T) => number): T {
+            return array.reduce(function (prev, current) {
+                return (prev && resolve(prev) < resolve(current)) ? prev : current
+            })
+        }
+
+
+
     }
 }

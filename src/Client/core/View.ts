@@ -5,11 +5,8 @@ import {PageController} from "../ui/private/page/PageController";
 import {PageContext} from "./context/PageContext";
 import {Content} from "../ui/private/container/ContainerController";
 import {IDataSource} from "./IDataSource";
-import {S_MockContext} from "./context/DataContext";
-import {MockConnector} from "./DataExchange";
 import {OnionProtoClient} from "./OnionProtoClient";
-import * as url from "url";
-import * as events from "events";
+import {ContentDefinition} from "./getPage/ContentDefinition";
 
 
 export class View {
@@ -28,6 +25,9 @@ export class View {
             })
     }
 
+    public createContentController(contentDefinition: ContentDefinition) {
+        
+    }
     createControllers(dataSource: IDataSource, content: Content): ViewController[] {
         return Object.keys(content).map(component => {
                 let entry = entries[content[component].componentType];
@@ -41,12 +41,21 @@ export class View {
 
     }
 
+
+
+
+
+
+    //todo: finish SPA
+    //todo: test hyperlink clicks
     private bind_captureHyperlinkClicks() {
         window.addEventListener('click', event => {
             this.doRoutingOnClick(event);
         })
     }
 
+
+    //todo: write doc, about SPA
     private doRoutingOnClick(event: MouseEvent) {
         type HTMLHyperlinkElement = HTMLAnchorElement | HTMLAreaElement | HTMLBaseElement | HTMLLinkElement
         function onClickTargetsHyperlink(elem: EventTarget): elem is HTMLHyperlinkElement {
@@ -74,14 +83,13 @@ export class View {
 
             if (onClickTargetsInsideDomain(url)) {
                 cancelClick(event)
+
                 throw new Error("this doRoutingOnClick has not been implemented!")
 
                 //todo:
                 // open the page with url.pathname
                 // this.openPage(url.pathname)
             }
-
-
         }
     }
 }

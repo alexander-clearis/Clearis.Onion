@@ -4,7 +4,7 @@ import {GlobalValueType} from "./GlobalValueType";
 
 
 export interface iValue<Type extends GlobalValueType = GlobalValueType> extends ISubscribable<Type> {
-    value: Type | undefined;
+    value?: Type;
 
 }
 
@@ -16,14 +16,14 @@ export abstract class AbstractValue<Type extends GlobalValueType = GlobalValueTy
         this._value = initial;
     }
 
-    set value(value: Type) {
+    set value(value: Type | undefined) {
         if (this._value != value) {
             this._value = value;
             this.callSubscribers(value)
         }
     }
 
-    get value(): Type {
+    get value(): Type | undefined{
         return this._value
     }
 

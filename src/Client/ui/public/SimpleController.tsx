@@ -6,6 +6,7 @@ import {StringValueBinding} from "../../data/binding/public/StringValueBinding";
 
 
 export interface SimpleProps extends BaseComponentProps {
+
     path: string
 }
 
@@ -19,10 +20,13 @@ export class SimpleController extends ViewController<SimpleProps> {
     }
 
 
+    constructor(dataSource: IDataSource, props: SimpleProps) {
+        super(dataSource, props);
+    }
 }
 
 export class SimpleComponent extends Component<{ path: string, source: IDataSource }, { value: any }> {
-    binding?: AbstractValueBinding
+    binding?: StringValueBinding
 
 
     componentDidMount() {
@@ -30,12 +34,12 @@ export class SimpleComponent extends Component<{ path: string, source: IDataSour
         this.binding.subscribe(this.valueBind);
     }
 
-    valueBind = (value) => {
+    valueBind = (value: string | undefined) => {
         this.setState({value: value});
     }
 
     componentWillUnmount() {
-        this.binding.unsubscribe(this.valueBind);
+        this.binding!.unsubscribe(this.valueBind);
     }
 
     render(props?: RenderableProps<{ path: string; source: IDataSource }>, state?: Readonly<{ value: any }>, context?: any): ComponentChild {

@@ -1,4 +1,4 @@
-import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
-
-setupRouting();
-setupPrecaching(getFiles());
+// import { getFiles, setupPrecaching, setupRouting } from 'preact-cli';
+//
+// setupRouting();
+// setupPrecaching(getFiles());

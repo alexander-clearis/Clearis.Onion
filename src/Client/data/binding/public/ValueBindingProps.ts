@@ -15,9 +15,9 @@ export namespace ValueProperties {
     }
 
     export namespace String {
-        import RegexType = ValueUtils.String.RegexType;
-        import ValuePropertyRegexReplace = ValueUtils.String.RegexReplaceType;
-        import CaseTransformMethod = ValueUtils.String.CaseTransformMethod;
+        import RegexType = ValueUtils._String.RegexType;
+        import ValuePropertyRegexReplace = ValueUtils._String.RegexReplaceType;
+        import CaseTransformMethod = ValueUtils._String.CaseTransformMethod;
 
         export interface DisplayValueProperties extends BaseDisplayValueProperties {
         }

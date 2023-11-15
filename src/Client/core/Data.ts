@@ -87,19 +87,24 @@ export class Data {
     getGarage() {
         return this.get("123456789")
     }
+
     getOpel() {
         return this.get("111222333")
     }
+
     getMercedes() {
         return this.get("999000999")
     }
+
     switchCar() {
         let garage = this.getGarage();
-        if(garage.get("currentCar").value == this.getMercedes()) {
-            garage.get("currentCar").value = this.
-            getOpel();
-        }else {
-            garage.get("currentCar").value = this.getMercedes();
+        if (garage) {
+
+            if (garage.get("currentCar").value == this.getMercedes()) {
+                garage.get("currentCar").value = this.getOpel();
+            } else {
+                garage.get("currentCar").value = this.getMercedes();
+            }
         }
     }
 }

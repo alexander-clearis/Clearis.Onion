@@ -9,7 +9,6 @@ export namespace OnionProtoClient {
     export const view: View = new View()
 
     export const culture: Culture = new Culture()
-    //todo: merge single page router
 
 }
 

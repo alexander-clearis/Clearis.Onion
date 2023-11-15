@@ -5,7 +5,7 @@ import {GlobalValueType} from "../../values/GlobalValueType";
 export class Subscribable<Type extends GlobalValueType = GlobalValueType> implements ISubscribable {
     private _registeredCallbacks: SubscriberCallbackMethod<Type>[] = []
 
-    callSubscribers(value: Type) {
+    callSubscribers(value: Type | undefined) {
         this._registeredCallbacks.forEach(registered_callback => {
             registered_callback(value);
         })

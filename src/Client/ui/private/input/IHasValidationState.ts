@@ -12,7 +12,7 @@ export interface IHasValidationState<GenericStates extends GlobalValidationState
 
 
     //todo: clean up typings
-    pushValidationState<ValueType extends GlobalValueType = GlobalValueType, Properties extends BaseInputValueProperties = BaseInputValueProperties>(source: InputValueBinding<ValueType, Properties, GenericStates>, state: SupportedStates<GenericStates>);
+    pushValidationState<ValueType extends GlobalValueType = GlobalValueType, Properties extends BaseInputValueProperties = BaseInputValueProperties>(source: InputValueBinding<ValueType, Properties, GenericStates>, state: SupportedStates<GenericStates>): void;
 
-    clearValidationState<ValueType extends GlobalValueType = GlobalValueType, Properties extends BaseInputValueProperties = BaseInputValueProperties>(source: InputValueBinding<ValueType, Properties, GenericStates>);
+    clearValidationState<ValueType extends GlobalValueType = GlobalValueType, Properties extends BaseInputValueProperties = BaseInputValueProperties>(source: InputValueBinding<ValueType, Properties, GenericStates>): void;
 }

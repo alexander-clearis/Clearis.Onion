@@ -1,16 +1,17 @@
 import {iValue} from "../../values/IValue";
-import {Subscribable} from "./Subscribable";
-import {IDataSource, isSourceable} from "../../../core/IDataSource";
 import {SubscriberCallbackMethod} from "./ISubscribable";
 import {GlobalValueType} from "../../values/GlobalValueType";
-import {ValueProperties} from "../public/ValueBindingProps";
-import BaseDisplayValueProperties = ValueProperties.BaseDisplayValueProperties;
-import ValueFormatType = ValueProperties.ValueFormatType;
-import BaseInputValueProperties = ValueProperties.BaseInputValueProperties;
+
 import {IHasValidationState} from "../../../ui/private/input/IHasValidationState";
 import {ValueUtils} from "../../values/ValueUtils";
 import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
 import GlobalValidationStateType = ValueUtils.Validation.GlobalValidationStateType;
+import {IDataSource, isSourceable} from "../../../core/IDataSource";
+import {Subscribable} from "./Subscribable";
+import {ValueProperties} from "../public/ValueBindingProps";
+import BaseInputValueProperties = ValueProperties.BaseInputValueProperties;
+import BaseDisplayValueProperties = ValueProperties.BaseDisplayValueProperties;
+import ValueFormatType = ValueProperties.ValueFormatType;
 
 const pathSeparator = "/"
 
@@ -22,7 +23,8 @@ type PathBindingRecord<T extends GlobalValueType = GlobalValueType> = {
 
 
 export interface InputValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseInputValueProperties = BaseInputValueProperties, ValidationState extends GlobalValidationStateType = GeneralValidationState> extends AbstractValueBinding<Type, ValuePropertyType> {
-    set(value: Type, validationTarget?: IHasValidationState<ValidationState>): void
+    set(value: Type): void
+
     isRequired: boolean
 }
 
@@ -59,13 +61,13 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
 
     //todo: optimize resubscribe, only on change
 
-    private getSource(index: number): IDataSource {
+    private getSource(index: number): IDataSource | undefined {
         if (index === 0) {
             return this._source;
         }
 
         let source = this.pathBindingRecords[index - 1];
-        if (source.resolvesTo.value != undefined) {
+        if (source.resolvesTo?.value != undefined) {
             if (isSourceable(source.resolvesTo.value)) {
                 return source.resolvesTo.value
             } else {
@@ -75,7 +77,7 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
         return undefined
     }
 
-    private getRefreshFromIndex(from: string | number): number {
+    private getRefreshFromIndex(from: string | number | undefined): number {
         let refreshFromIndex = 0;
         if (from !== undefined) {
             if (typeof from === "string") {
@@ -97,7 +99,7 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
 
             //unsubscribe!
             if (valueToRefresh.onChange) {
-                valueToRefresh.resolvesTo.unsubscribe(valueToRefresh.onChange);
+                valueToRefresh.resolvesTo?.unsubscribe(valueToRefresh.onChange);
             }
 
             //refresh
@@ -117,7 +119,7 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
         this.callSubscribers(this.endPoint?.value)
     }
 
-    get format(): ValueFormatType {
+    get format(): ValueFormatType | undefined {
         return this.properties.format
     }
 

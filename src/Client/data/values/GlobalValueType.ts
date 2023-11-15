@@ -6,8 +6,10 @@ export type DateTimeType = number
 export type ColorType = number
 export type UrlType = URL | string
 
-//unions
-export type BaseValueType = string | number | boolean | DateTimeType | ColorType | UrlType
+export enum ValueTypeEnum {
+    OBJECT = "OBJECT"
+}
+export type BaseValueType = undefined | string | number | boolean | DateTimeType | ColorType | UrlType
 
 export type PropertyValueType = BaseValueType | OnionObject
 

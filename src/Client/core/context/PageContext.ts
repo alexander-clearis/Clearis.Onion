@@ -1,7 +1,9 @@
 import {IDataSource} from "../IDataSource";
 import {Context} from "./Context";
+import {GlobalValueType} from "../../data/values/GlobalValueType";
 
-type ContextMap = { [index: string]: Context }
+type ContextMap = { [index: string]: Context<any> }
+
 
 export class PageContext implements IDataSource {
     readonly discriminator = "IS_SOURCE";
@@ -14,7 +16,7 @@ export class PageContext implements IDataSource {
         throw new ReferenceError(`The current page context doesn't have a context named: '${contextName}'`)
     }
 
-    add(name: string, context: Context): void {
+    add<Type extends GlobalValueType = GlobalValueType>(name: string, context: Context<Type>): void {
         //todo: with if context with this name already exitsts
         this.map[name] = context
     }

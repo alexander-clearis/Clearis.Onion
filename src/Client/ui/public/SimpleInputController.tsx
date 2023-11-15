@@ -5,6 +5,7 @@ import {StringInputValueBinding} from "../../data/binding/public/StringValueBind
 
 
 export interface SimpleInputProps extends BaseComponentProps {
+    componentType: "SimpleInputController"
     path: string
 }
 
@@ -28,16 +29,16 @@ export class SimpleInputComponent extends Component<{ path: string, source: IDat
         this.binding.subscribe(this.valueBind);
     }
 
-    valueBind = (value) => {
+    valueBind = (value: string | undefined) => {
         this.setState({value: value});
     }
 
     componentWillUnmount() {
-        this.binding.unsubscribe(this.valueBind);
+        this.binding?.unsubscribe(this.valueBind);
     }
 
     onChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.binding.set(event.currentTarget.value)
+        this.binding?.set(event.currentTarget.value)
     }
 
     render(props?: RenderableProps<{ path: string; source: IDataSource }>, state?: Readonly<{ value: any }>, context?: any): ComponentChild {

@@ -19,7 +19,7 @@ export class OnionObject implements IDataSource {
 
     protected _field: ObjectFields = {};
 
-    get(property_name: string) {
+    get(property_name: string): iValue {
         return this._field[property_name]
     }
 
