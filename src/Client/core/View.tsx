@@ -1,12 +1,12 @@
-import {BaseComponentProps, BasicViewController} from "../ui/private/base/BasicViewController";
-import {entries, ViewControllerCTOR} from "../ui/public/_public_components";
-
 import {Content, ContainerController} from "../ui/private/container/ContainerControllerProps";
 import {IDataSource} from "./IDataSource";
 import {OnionProtoClient} from "./OnionProtoClient";
 import {ContentDefinition} from "./getPage/ContentDefinition";
 import {ContentContext} from "./context/ContentContext";
-import {ContentController} from "../ui/private/page/ContentController";
+import {ContentController, ContentWrapperComponent} from "../ui/private/page/ContentWrapperComponent";
+import {createElement, h, VNode} from "preact";
+import {BaseComponentProps, BasicViewComponent, ComponentFactoryProps} from "../ui/private/base/BasicViewController";
+import {ComponentConstructor, entries, SampleProps} from "../ui/public/_public_components";
 
 
 export class View {
@@ -15,23 +15,43 @@ export class View {
         this.createViewEventListeners()
     }
 
-    public createContentController(key: string, contentDefinition: ContentDefinition): ContentController {
+    public getContentController(key: string, contentDefinition: ContentDefinition): ContentController {
         const contentContext: ContentContext = new ContentContext();
         console.log("New Content Controller created!")
         // todo: fix ComponentType!
-        return new ContentController(contentContext, {
+        return new ContentController({
+            content: contentDefinition.content,
             componentType: key,
-            content: contentDefinition.content
-        });
-
+            CHECK_ME: "DIFFERENT CHECK ME VALUE!"
+        })
     }
 
-    createControllers(dataSource: IDataSource, content: Content): BasicViewController[] {
-        return Object.keys(content).map(component => {
-                let entry = entries[content[component].componentType];
-                return new entry(dataSource, content[component])
+    createControllers(content: Content): VNode[] {
+        const result: VNode[] = []
+        for (let componentID in content) {
+            let componentFactoryProps = content[componentID];
+            try {
+                result.push(createElement(this.getComponentConstructor(componentFactoryProps.componentType), this.wrapProperties(componentFactoryProps)))
+            } catch (e) {
+                console.log(e)
             }
-        )
+        }
+        return result;
+    }
+
+    public getComponentConstructor(ComponentName: string): ComponentConstructor {
+        if (entries.hasOwnProperty(ComponentName)) {
+            return entries[ComponentName]
+        } else {
+            throw new Error(`No constructor found for: ${ComponentName}  in constructor entries.`)
+        }
+    }
+
+    private wrapProperties<PropType extends ComponentFactoryProps>(factoryProps: PropType): PropType & BaseComponentProps {
+        return {
+            ...factoryProps,
+            CHECK_ME: "this is fun!"
+        }
     }
 
 
@@ -103,7 +123,7 @@ export class View {
         console.log(`New Page Controller Requested, to location ${location}`)
 
         return this.getPage(location).then(contentDefinition => {
-            return this.createContentController("location", contentDefinition)
+            return this.getContentController("location", contentDefinition)
         })
     }
 }

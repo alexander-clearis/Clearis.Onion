@@ -1,14 +1,11 @@
-import {BaseComponentProps, BasicViewController} from "../base/BasicViewController";
-import {ComponentChild} from "preact";
-import {IDataSource} from "../../../core/IDataSource";
-import {OnionProtoClient} from "../../../core/OnionProtoClient";
+import {BaseComponentProps, BasicViewComponent, ComponentFactoryProps} from "../base/BasicViewController";
 
 /**
  * @interface Content - Describes a key-value map, of components.
  */
 export interface Content {
     //todo: write TSDoc for string index interface
-    [index: string]: BaseComponentProps
+    [index: string]: {  } & ComponentFactoryProps
 }
 
 
@@ -17,21 +14,15 @@ export interface ContainerControllerProps extends BaseComponentProps {
 }
 
 
-export abstract class ContainerController<Props extends ContainerControllerProps = ContainerControllerProps> extends BasicViewController<Props> {
-    protected readonly _content: BasicViewController[]
+export abstract class ContainerController<Props extends ContainerControllerProps = ContainerControllerProps> extends BasicViewComponent<Props> {
 
 
-    constructor(dataSource: IDataSource, props: Props) {
-        super(dataSource, props);
-        this._content = OnionProtoClient.view.createControllers(dataSource, this.props.content)
+    constructor(props: Props) {
+        super(props)
     }
 
     getRetrievalSchema() {
-        return this._content.map(controller => controller.getRetrievalSchema());
     }
 
-    render(): ComponentChild {
-        return this._content.map(controller => controller.render())
-    }
 
 }

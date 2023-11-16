@@ -1,28 +1,46 @@
-import {ComponentChild} from "preact";
+import {Component, ComponentChild, h, RenderableProps} from "preact";
 import {Data} from "../../../core/Data";
 import {IDataSource} from "../../../core/IDataSource";
 
-/**
- * @interface BaseComponentProps - Most basic definition of a component.
- */
-export interface BaseComponentProps {
-    //todo: write TSDoc for componentType
+export interface ComponentFactoryProps {
     readonly componentType: string;
+}
+export interface BaseComponentProps extends ComponentFactoryProps{
+    CHECK_ME: string
+}
+
+export interface BasicComponentState {
+    thisIsABaseComponentStateProp: string
 }
 
 
-export abstract class BasicViewController<P extends BaseComponentProps = BaseComponentProps> {
-    private readonly _dataSource: IDataSource
-    protected get dataSource(): IDataSource {
-        return this._dataSource;
-    }
+export abstract class BasicViewComponent<Props extends BaseComponentProps, State extends BasicComponentState = BasicComponentState> extends Component<Props, State> {
 
-    constructor(dataSource: IDataSource, protected readonly props: P) {
-        this._dataSource = dataSource
-    }
+    constructor(props: Props) {
+        super(props, undefined);
 
+    }
     abstract getRetrievalSchema(): void;
 
     abstract render(): ComponentChild;
+
+    abstract render(props?: RenderableProps<Props>, state?: Readonly<State>, context?: any): ComponentChild
 }
 
+
+
+
+export class SampleComponent extends BasicViewComponent<BaseComponentProps, BasicComponentState> {
+    constructor(props: BaseComponentProps) {
+        super(props);
+
+    }
+    getRetrievalSchema(): void {
+
+    }
+
+    render(): ComponentChild {
+        return <div> This is a test </div>;
+    }
+
+}
