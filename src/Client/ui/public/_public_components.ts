@@ -1,8 +1,5 @@
-import {BaseComponentProps, ViewController} from "../private/base/ViewController";
-import {SimpleController, SimpleProps} from "./SimpleController";
+import {BaseComponentProps, BasicViewController} from "../private/base/BasicViewController";
 import {IDataSource} from "../../core/IDataSource";
-import {SimpleInputComponent, SimpleInputController} from "./SimpleInputController";
-import * as path from "path";
 
 
 //
@@ -17,12 +14,11 @@ import * as path from "path";
 //
 
 
-export type ViewControllerCTOR<T extends ViewController = ViewController, PropType extends BaseComponentProps = BaseComponentProps> =
-    new (dataSource: IDataSource, ...args: any[]) => SimpleController;
+export type ViewControllerCTOR<T extends BasicViewController = BasicViewController, PropType extends BaseComponentProps = BaseComponentProps> =
+    new (dataSource: IDataSource, ...args: any[]) => BasicViewController;
 
 
 export const entries: { [key: string]: ViewControllerCTOR } = {
-    "SimpleLabel": SimpleController,
-    "SimpleInput": SimpleInputController,
+
 }
 

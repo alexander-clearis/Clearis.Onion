@@ -1,17 +1,19 @@
-import {ValueProperties} from "./ValueBindingProps";
 import {AbstractValueBinding, InputValueBinding} from "../private/ValueBinding";
 import {ValueUtils} from "../../values/ValueUtils";
-import DisplayValueProperties = ValueProperties.Number.DisplayValueProperties;
 import NumberValidationState = ValueUtils.Validation.NumberValidationState;
-import ValueScaleType = ValueProperties.ValueScaleType;
-import InputValueProperties = ValueProperties.Number.InputValueProperties;
 import Number_isNullOrEmpty = ValueUtils._Number.Number_isNullOrEmpty;
 import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
 import ValidationError = ValueUtils.Validation.ValidationError;
 import String_isNullOrEmpty = ValueUtils._String.String_isNullOrEmpty;
 import Number_isNaN = ValueUtils._Number.Number_isNaN;
+import {
+    ValueBindingPropSpaces
+} from "./ValueBindingProps";
+import ValueScaleType = ValueBindingPropSpaces.ValueScaleType;
+import NumberDisplayValueProperties = ValueBindingPropSpaces.NumberDisplayValueProperties;
+import NumberInputValueProperties = ValueBindingPropSpaces.NumberInputValueProperties;
 
-export class NumberValueBinding<VProperties extends DisplayValueProperties = DisplayValueProperties> extends AbstractValueBinding<number, VProperties> {
+export class NumberValueBinding<VProperties extends NumberDisplayValueProperties = NumberDisplayValueProperties> extends AbstractValueBinding<number, VProperties> {
     getFormatted(): string | undefined {
         throw new Error("This method has not been implemented.")
     }
@@ -21,7 +23,7 @@ export class NumberValueBinding<VProperties extends DisplayValueProperties = Dis
     }
 }
 
-export class NumberInputValueBinding extends NumberValueBinding<InputValueProperties> implements InputValueBinding<number, InputValueProperties, NumberValidationState> {
+export class NumberInputValueBinding extends NumberValueBinding<NumberInputValueProperties> implements InputValueBinding<number, NumberInputValueProperties, NumberValidationState> {
 
     set(value: number | string | undefined): void {
         let parsedValue: number | undefined
@@ -54,6 +56,7 @@ export class NumberInputValueBinding extends NumberValueBinding<InputValueProper
             throw new ValidationError(NumberValidationState.MAX_VALUE, `Value must be lower then ${this.maxValue}, but is ${value}.`);
         }
 
+        //todo: iplement set
     }
 
     // todo: write unit-test

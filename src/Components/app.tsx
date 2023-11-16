@@ -1,39 +1,35 @@
 import {h} from 'preact';
 import {Component} from "preact";
+
 import {OnionProtoClient} from "../Client/core/OnionProtoClient";
-import {PageContext} from "../Client/core/context/PageContext";
+import {ContentController} from "../Client/ui/private/page/ContentController";
+
+interface AppState {
+    windowLocation: string;
+    contentController: ContentController;
+}
 
 
-class App extends Component {
+class App extends Component<{}, AppState> {
+    constructor() {
+        super();
+        this.setWindowLocation(window.location.href)
+
+    }
+
+    setWindowLocation(location: string) {
+
+
+
+        OnionProtoClient.view.getPageController(location).then(contentController => {
+            this.setState({
+                windowLocation: location,
+                contentController
+            })
+        });
+    }
+
     render() {
-        const content = {
-            "GarageName": {
-                componentType: "SimpleLabel",
-                path: "garage/name"
-            },
-            "GarageAdress": {
-                componentType: "SimpleLabel",
-                path: "garage/address"
-            },
-            "SampleInput": {
-                componentType: "SimpleInput",
-                path: "garage/name"
-            },
-            "CurrentCarBrand": {
-                componentType: "SimpleLabel",
-                path: "garage/currentCar/brand"
-            },
-            "CurrentCarPlate": {
-                componentType: "SimpleLabel",
-                path: "garage/currentCar/plate"
-            },
-            "CurrentCarOwner": {
-                componentType: "SimpleLabel",
-                path: "garage/currentCar/owner/name"
-            },
-        };
-
-        const pageContext = new PageContext()
 
 
         return (
@@ -41,7 +37,7 @@ class App extends Component {
                 <main>
                     <div class={"fixedhtml"}>
                         {
-                            OnionProtoClient.view.createPage(content, pageContext).render()
+                            window.location.href
                         }
                     </div>
                 </main>

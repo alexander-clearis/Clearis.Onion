@@ -1,6 +1,5 @@
 import {OnionObject} from "../object/OnionObject";
 import {iValue} from "./IValue";
-import {ValueProperties} from "../binding/public/ValueBindingProps";
 
 export type DateTimeType = number
 export type ColorType = number

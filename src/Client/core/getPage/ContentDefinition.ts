@@ -1,5 +1,4 @@
-import {Content} from "../../ui/private/container/ContainerController";
-import {ValueTypeEnum} from "../../data/values/GlobalValueType";
+import {Content} from "../../ui/private/container/ContainerControllerProps";
 import {QueryLanguage} from "../data/QueryProtocol";
 import {CommunicationProtocolEnum} from "../data/CommunicationProtocol";
 
@@ -10,11 +9,11 @@ export interface ContentDefinition {
     /**
      * Describes a list of components, that should be rendered.
      */
-    content?: Content;
+    content: Content;
     /**
      Represents the context, that should be accesible for the {@link content} *
      */
-    context?: undefined
+    context: undefined
 }
 
 export interface ContextProperties {

@@ -1,9 +1,24 @@
 {
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "Node",
+		"target": "es5",
+
+		"module": "esnext",
+		"moduleResolution": "node",
+
 		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+
+		"resolveJsonModule": true,
+		"isolatedModules": false,
+
+
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+
+
 		"jsx": "react",
 		"jsxFactory": "h",
 		"jsxFragmentFactory": "Fragment",
@@ -18,5 +33,9 @@
 		},
 		"strict": true
 	},
-	"include": ["src/**/*"]
+
+	"include": [
+		"src"
+	]
+
 }

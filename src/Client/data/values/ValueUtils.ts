@@ -1,5 +1,3 @@
-import {Culture} from "../../core/Culture";
-import {OnionProtoClient} from "../../core/OnionProtoClient";
 
 export namespace ValueUtils {
 
@@ -78,7 +76,8 @@ export namespace ValueUtils {
             }
 
             //todo: write doc
-            return value.replaceAll(method[0], method[1]);
+            // return value.replaceAll(method[0], method[1]);
+            return value
         }
 
         //todo: check is null

@@ -1,34 +1,23 @@
 import {iValue} from "../../values/IValue";
 import {SubscriberCallbackMethod} from "./ISubscribable";
 import {GlobalValueType} from "../../values/GlobalValueType";
-
-import {IHasValidationState} from "../../../ui/private/input/IHasValidationState";
 import {ValueUtils} from "../../values/ValueUtils";
 import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
 import GlobalValidationStateType = ValueUtils.Validation.GlobalValidationStateType;
 import {IDataSource, isSourceable} from "../../../core/IDataSource";
 import {Subscribable} from "./Subscribable";
-import {ValueProperties} from "../public/ValueBindingProps";
-import BaseInputValueProperties = ValueProperties.BaseInputValueProperties;
-import BaseDisplayValueProperties = ValueProperties.BaseDisplayValueProperties;
-import ValueFormatType = ValueProperties.ValueFormatType;
+
+import {ValueBindingPropSpaces} from "../public/ValueBindingProps";
+import BaseDisplayValueProperties_1 = ValueBindingPropSpaces.BaseDisplayValueProperties;
+import ValueFormatType = ValueBindingPropSpaces.ValueFormatType;
+import BaseInputValueProperties = ValueBindingPropSpaces.BaseInputValueProperties;
+
+//THIS DOESN'T FAIL
+
 
 const pathSeparator = "/"
 
-type PathBindingRecord<T extends GlobalValueType = GlobalValueType> = {
-    path: string;
-    resolvesTo?: iValue<T>,
-    onChange?: SubscriberCallbackMethod<T>
-};
-
-
-export interface InputValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseInputValueProperties = BaseInputValueProperties, ValidationState extends GlobalValidationStateType = GeneralValidationState> extends AbstractValueBinding<Type, ValuePropertyType> {
-    set(value: Type): void
-
-    isRequired: boolean
-}
-
-export abstract class AbstractValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseDisplayValueProperties = BaseDisplayValueProperties> extends Subscribable<Type> {
+export abstract class AbstractValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseDisplayValueProperties_1 = BaseDisplayValueProperties_1> extends Subscribable<Type> {
 
     protected pathBindingRecords: PathBindingRecord[];
     protected endPoint?: iValue<Type>;
@@ -38,9 +27,10 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
     private _query: string;
 
     protected properties: ValuePropertyType;
-
     constructor(_source: IDataSource, _query: string, valueProperties: ValuePropertyType) {
         super();
+
+
         this._source = _source;
         this._query = _query;
         this.properties = valueProperties;
@@ -137,4 +127,17 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
         }
     }
 
+}
+
+
+type PathBindingRecord<T extends GlobalValueType = GlobalValueType> = {
+    path: string;
+    resolvesTo?: iValue<T>,
+    onChange?: SubscriberCallbackMethod<T>
+};
+
+export interface InputValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseInputValueProperties = BaseInputValueProperties, ValidationState extends GlobalValidationStateType = GeneralValidationState> extends AbstractValueBinding<Type, ValuePropertyType> {
+    set(value: Type): void
+
+    isRequired: boolean
 }

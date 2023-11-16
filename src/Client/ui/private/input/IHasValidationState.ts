@@ -3,8 +3,8 @@ import GlobalValidationStateType = ValueUtils.Validation.GlobalValidationStateTy
 import {InputValueBinding} from "../../../data/binding/private/ValueBinding";
 import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
 import {GlobalValueType} from "../../../data/values/GlobalValueType";
-import {ValueProperties} from "../../../data/binding/public/ValueBindingProps";
-import BaseInputValueProperties = ValueProperties.BaseInputValueProperties;
+import {ValueBindingPropSpaces} from "../../../data/binding/public/ValueBindingProps";
+import BaseInputValueProperties = ValueBindingPropSpaces.BaseInputValueProperties;
 
 type SupportedStates<StateEnum> = StateEnum | GeneralValidationState
 

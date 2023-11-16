@@ -3,12 +3,14 @@ import {Context} from "./Context";
 import {GlobalValueType} from "../../data/values/GlobalValueType";
 import {ContextProperties} from "../getPage/ContentDefinition";
 import {DataContext, ListContext} from "./DataContext";
-import {QueryProtocol} from "../data/QueryProtocol";
+import { QueryProtocol} from "../data/QueryProtocol";
 import {CommunicationProtocol} from "../data/CommunicationProtocol";
+import * as querystring from "querystring";
+import {getProtocol} from "../data/query/PRQL_protocol";
 
 type ContextStore = { [index: string]: Context<any> }
 
-export class GlobalContext implements IDataSource {
+export class ContentContext implements IDataSource {
     readonly discriminator = "IS_SOURCE";
     readonly map: ContextStore = {}
 
@@ -34,13 +36,17 @@ export class GlobalContext implements IDataSource {
         }
 
         if (contextProperties.isList) {
-            this.map[key] = new ListContext(contextProperties.end_point, QueryProtocol.getProtocol(contextProperties.queryProtocol), CommunicationProtocol.getProtocol(contextProperties.communicationProtocol))
+            this.map[key] = new ListContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, CommunicationProtocol.getProtocol(contextProperties.communicationProtocol))
         } else {
-            this.map[key] = new DataContext(contextProperties.end_point, QueryProtocol.getProtocol(contextProperties.queryProtocol), CommunicationProtocol.getProtocol(contextProperties.communicationProtocol));
+            this.map[key] = new DataContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, CommunicationProtocol.getProtocol(contextProperties.communicationProtocol));
         }
-
-
     }
 
+
+
+    refresh(...params: any) {
+        console.log("CONTENT CONTEXT, starts refresh!")
+        console.log(...params)
+    }
 
 }

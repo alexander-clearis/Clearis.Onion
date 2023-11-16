@@ -1,8 +1,6 @@
 import {AbstractValueBinding, InputValueBinding} from "../private/ValueBinding";
-import {ValueProperties} from "./ValueBindingProps";
 import {ValueUtils} from "../../values/ValueUtils";
-import DisplayValueProperties = ValueProperties.String.DisplayValueProperties;
-import InputValueProperties = ValueProperties.String.InputValueProperties;
+
 import RegexType = ValueUtils._String.RegexType;
 import applyCaseTransform = ValueUtils._String.applyCaseTransform;
 import matchesRegex = ValueUtils._String.matchesRegex;
@@ -12,8 +10,12 @@ import ValidationError = ValueUtils.Validation.ValidationError;
 import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
 import StringValidationState = ValueUtils.Validation.StringValidationState;
 
+import {ValueBindingPropSpaces} from "./ValueBindingProps";
+import DisplayValueProperties_s = ValueBindingPropSpaces.String_DisplayValueProperties;
+import InputValueProperties_s = ValueBindingPropSpaces.String_InputValueProperties;
 
-export class StringValueBinding<VProperties extends DisplayValueProperties = DisplayValueProperties> extends AbstractValueBinding<string, VProperties> {
+
+export class StringValueBinding<VProperties extends DisplayValueProperties_s = DisplayValueProperties_s> extends AbstractValueBinding<string, VProperties> {
 
     //todo: implement formatting @Gerrit.
     getFormatted(): string | undefined {
@@ -21,7 +23,7 @@ export class StringValueBinding<VProperties extends DisplayValueProperties = Dis
     }
 }
 
-export class StringInputValueBinding extends StringValueBinding<InputValueProperties> implements InputValueBinding<string, InputValueProperties, StringValidationState> {
+export class StringInputValueBinding extends StringValueBinding<InputValueProperties_s> implements InputValueBinding<string, InputValueProperties_s, StringValidationState> {
     set(value: string): void {
         //Check if required and empty else break.
         if (this.isRequired && String_isNullOrEmpty((value))) {

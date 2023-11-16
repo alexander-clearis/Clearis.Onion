@@ -1,6 +1,5 @@
 import {Context} from "./Context";
 import {OnionObject} from "../../data/object/OnionObject";
-import {CommunicationProtocol, MockConnector} from "../data/CommunicationProtocol";
 import {iValue} from "../../data/values/IValue";
 import {PropertyValueType, ValueSet, GlobalValueType} from "../../data/values/GlobalValueType";
 

@@ -11,7 +11,7 @@ export interface BaseComponentProps {
 }
 
 
-export abstract class ViewController<P extends BaseComponentProps = BaseComponentProps> {
+export abstract class BasicViewController<P extends BaseComponentProps = BaseComponentProps> {
     private readonly _dataSource: IDataSource
     protected get dataSource(): IDataSource {
         return this._dataSource;

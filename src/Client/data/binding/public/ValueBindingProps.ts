@@ -1,55 +1,60 @@
 import {BaseValueType} from "../../values/GlobalValueType";
 import {ValueUtils} from "../../values/ValueUtils";
 
-export namespace ValueProperties {
-    export type ValueScaleType = {}
-    export type ValueFormatType = {}
+export namespace  ValueBindingPropSpaces {
+
+
+    import CaseTransformMethod = ValueUtils._String.CaseTransformMethod;
+    import RegexReplaceType = ValueUtils._String.RegexReplaceType;
+
+    export interface parent {
+        p: string
+    }
+    export namespace internalSpace {
+        export const constant = "this is a constant"
+        export interface Bar extends parent{
+            hasAprop: string
+        }
+
+    }
+    export type ValueScaleType = {};
+    export type ValueFormatType = {};
+
+
 
     export interface BaseDisplayValueProperties {
         format?: ValueFormatType
     }
 
-    export interface BaseInputValueProperties<Type extends BaseValueType = BaseValueType> extends BaseDisplayValueProperties {
+
+    export interface BaseInputValueProperties<Type extends BaseValueType = BaseValueType>  {
         defaultValue?: Type
         required: boolean
+        format?: ValueFormatType
+
     }
 
-    export namespace String {
-        import RegexType = ValueUtils._String.RegexType;
-        import ValuePropertyRegexReplace = ValueUtils._String.RegexReplaceType;
-        import CaseTransformMethod = ValueUtils._String.CaseTransformMethod;
+    export interface String_DisplayValueProperties extends BaseDisplayValueProperties {
 
-        export interface DisplayValueProperties extends BaseDisplayValueProperties {
-        }
-
-        export interface InputValueProperties extends DisplayValueProperties, BaseInputValueProperties<string> {
-            minValue?: number
-            maxValue?: number
-            useCaseTransform?: CaseTransformMethod
-            regex?: RegexType
-            regexReplace?: ValuePropertyRegexReplace
-        }
+    }
+    export interface String_InputValueProperties extends String_DisplayValueProperties, BaseInputValueProperties<string> {
+        minValue?: number
+        maxValue?: number
+        useCaseTransform?: CaseTransformMethod
+        regex?: undefined
+        regexReplace?: RegexReplaceType
     }
 
-    export namespace Number {
-        export interface DisplayValueProperties extends BaseDisplayValueProperties  {
-            scale?: ValueScaleType;
-        }
 
-        export interface InputValueProperties extends DisplayValueProperties, BaseInputValueProperties<number> {
-            minValue: number
-            maxValue: number
-        }
+
+    export interface NumberDisplayValueProperties extends BaseDisplayValueProperties {
+        scale?: ValueScaleType;
     }
 
-    export namespace Boolean {
-        export interface DisplayValueProperties extends BaseDisplayValueProperties{
-            format?: ValueFormatType
-        }
-
-        export interface InputValueProperties extends DisplayValueProperties, BaseInputValueProperties<boolean> {
-
-        }
+    export interface NumberInputValueProperties extends NumberDisplayValueProperties, BaseInputValueProperties<number> {
+        minValue: number
+        maxValue: number
     }
+
 
 }
