@@ -30,7 +30,6 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
     constructor(_source: IDataSource, _query: string, valueProperties: ValuePropertyType) {
         super();
 
-
         this._source = _source;
         this._query = _query;
         this.properties = valueProperties;

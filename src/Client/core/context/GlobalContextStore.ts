@@ -1,16 +1,16 @@
 import {IDataSource} from "../IDataSource";
 import {Context} from "./Context";
 import {GlobalValueType} from "../../data/values/GlobalValueType";
-import {ContextProperties} from "../getPage/ContentDefinition";
+import {ContextMap, ContextProperties} from "../getPage/ContentDefinition";
 import {DataContext, ListContext} from "./DataContext";
 import { QueryProtocol} from "../data/QueryProtocol";
-import {CommunicationProtocol} from "../data/CommunicationProtocol";
+import {CommunicationProtocol, getCommunicationProtocol} from "../data/CommunicationProtocol";
 import * as querystring from "querystring";
 import {getProtocol} from "../data/query/PRQL_protocol";
 
 type ContextStore = { [index: string]: Context<any> }
 
-export class ContentContext implements IDataSource {
+export class GlobalContextStore implements IDataSource {
     readonly discriminator = "IS_SOURCE";
     readonly map: ContextStore = {}
 
@@ -32,21 +32,29 @@ export class ContentContext implements IDataSource {
 
     create(key: string, contextProperties: ContextProperties): void {
         if (this.map.hasOwnProperty(key)) {
+            //todo: write custom error!
             throw new Error("Context with this key already exists.")
         }
 
         if (contextProperties.isList) {
-            this.map[key] = new ListContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, CommunicationProtocol.getProtocol(contextProperties.communicationProtocol))
+            this.map[key] = new ListContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, getCommunicationProtocol(contextProperties.communicationProtocol))
         } else {
-            this.map[key] = new DataContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, CommunicationProtocol.getProtocol(contextProperties.communicationProtocol));
+            this.map[key] = new DataContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, getCommunicationProtocol(contextProperties.communicationProtocol));
         }
     }
-
-
-
-    refresh(...params: any) {
-        console.log("CONTENT CONTEXT, starts refresh!")
-        console.log(...params)
+    createMap(contextMap: ContextMap) {
+        for(let contextID in contextMap) {
+            try {
+                this.create(contextID, contextMap[contextID]);
+            } catch (e) {
+                console.error(e)
+            }
+        }
     }
-
+    refresh(...params: any) {
+        console.log(...params)
+        for (let contextID in this.map) {
+            this.map[contextID].refresh()
+        }
+    }
 }

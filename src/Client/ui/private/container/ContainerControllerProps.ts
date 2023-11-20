@@ -5,7 +5,7 @@ import {BaseComponentProps, BasicViewComponent, ComponentFactoryProps} from "../
  */
 export interface Content {
     //todo: write TSDoc for string index interface
-    [index: string]: {  } & ComponentFactoryProps
+    [index: string]: ComponentFactoryProps & any
 }
 
 

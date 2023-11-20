@@ -8,7 +8,7 @@ export interface iValue<Type extends GlobalValueType = GlobalValueType> extends 
 
 }
 
-export abstract class AbstractValue<Type extends GlobalValueType = GlobalValueType> extends Subscribable<Type> implements iValue<Type> {
+export  class AbstractValue<Type extends GlobalValueType = GlobalValueType> extends Subscribable<Type> implements iValue<Type> {
     private _value?: Type
 
     constructor(initial?: Type) {

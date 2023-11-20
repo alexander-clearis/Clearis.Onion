@@ -1,12 +1,14 @@
-import {Content, ContainerController} from "../ui/private/container/ContainerControllerProps";
-import {IDataSource} from "./IDataSource";
+import {Content} from "../ui/private/container/ContainerControllerProps";
 import {OnionProtoClient} from "./OnionProtoClient";
 import {ContentDefinition} from "./getPage/ContentDefinition";
-import {ContentContext} from "./context/ContentContext";
-import {ContentController, ContentWrapperComponent} from "../ui/private/page/ContentWrapperComponent";
+import {GlobalContextStore} from "./context/GlobalContextStore";
+import {ContentController} from "../ui/private/page/ContentWrapperComponent";
 import {createElement, h, VNode} from "preact";
-import {BaseComponentProps, BasicViewComponent, ComponentFactoryProps} from "../ui/private/base/BasicViewController";
-import {ComponentConstructor, entries, SampleProps} from "../ui/public/_public_components";
+import {BaseComponentProps, ComponentFactoryProps, SampleComponent} from "../ui/private/base/BasicViewController";
+import {ComponentConstructor, entries} from "../ui/public/_public_components";
+import {CommunicationProtocolEnum} from "./data/CommunicationProtocol";
+import {QueryLanguage} from "./data/QueryProtocol";
+import {page} from "../../page";
 
 
 export class View {
@@ -16,24 +18,25 @@ export class View {
     }
 
     public getContentController(key: string, contentDefinition: ContentDefinition): ContentController {
-        const contentContext: ContentContext = new ContentContext();
+        const contentContext: GlobalContextStore = new GlobalContextStore();
+        contentContext.createMap(contentDefinition.context);
         console.log("New Content Controller created!")
         // todo: fix ComponentType!
         return new ContentController({
             content: contentDefinition.content,
-            componentType: key,
-            CHECK_ME: "DIFFERENT CHECK ME VALUE!"
+            componentType: "ContentController",
+            contextSource: contentContext
         })
     }
 
-    createControllers(content: Content): VNode[] {
+    createControllers(content: Content, context: GlobalContextStore): VNode[] {
         const result: VNode[] = []
         for (let componentID in content) {
             let componentFactoryProps = content[componentID];
             try {
-                result.push(createElement(this.getComponentConstructor(componentFactoryProps.componentType), this.wrapProperties(componentFactoryProps)))
+                result.push(createElement(this.getComponentConstructor(componentFactoryProps.componentType), this.wrapProperties(componentFactoryProps, context)))
             } catch (e) {
-                console.log(e)
+                console.error(e)
             }
         }
         return result;
@@ -47,10 +50,10 @@ export class View {
         }
     }
 
-    private wrapProperties<PropType extends ComponentFactoryProps>(factoryProps: PropType): PropType & BaseComponentProps {
+    private wrapProperties<PropType extends ComponentFactoryProps>(componentFactoryProps: PropType, context: GlobalContextStore): PropType & BaseComponentProps {
         return {
-            ...factoryProps,
-            CHECK_ME: "this is fun!"
+            ...componentFactoryProps,
+            contextSource: context
         }
     }
 
@@ -113,10 +116,7 @@ export class View {
 
     getPage(location: string): Promise<ContentDefinition> {
         console.log(`Get Page Request executed for: ${location}`)
-        return Promise.resolve({
-            content: {},
-            context: undefined
-        })
+        return Promise.resolve(page)
     }
 
     getPageController(location: string): Promise<ContentController> {

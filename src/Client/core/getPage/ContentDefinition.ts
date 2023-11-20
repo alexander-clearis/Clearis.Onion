@@ -13,7 +13,12 @@ export interface ContentDefinition {
     /**
      Represents the context, that should be accesible for the {@link content} *
      */
-    context: undefined
+    context: ContextMap
+}
+
+export type ContextMap = {
+//todo: write TSDOC
+    [index: string]: ContextProperties
 }
 
 export interface ContextProperties {

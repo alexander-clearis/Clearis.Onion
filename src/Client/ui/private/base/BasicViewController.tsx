@@ -6,7 +6,7 @@ export interface ComponentFactoryProps {
     readonly componentType: string;
 }
 export interface BaseComponentProps extends ComponentFactoryProps{
-    CHECK_ME: string
+    contextSource: IDataSource
 }
 
 export interface BasicComponentState {
@@ -29,18 +29,3 @@ export abstract class BasicViewComponent<Props extends BaseComponentProps, State
 
 
 
-
-export class SampleComponent extends BasicViewComponent<BaseComponentProps, BasicComponentState> {
-    constructor(props: BaseComponentProps) {
-        super(props);
-
-    }
-    getRetrievalSchema(): void {
-
-    }
-
-    render(): ComponentChild {
-        return <div> This is a test </div>;
-    }
-
-}

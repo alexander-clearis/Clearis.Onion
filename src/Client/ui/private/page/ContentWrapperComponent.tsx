@@ -1,28 +1,46 @@
 import {ContainerController, ContainerControllerProps} from "../container/ContainerControllerProps";
-import {ContentContext} from "../../../core/context/ContentContext";
+import {GlobalContextStore} from "../../../core/context/GlobalContextStore";
 import {ComponentChild, h} from "preact";
 import {OnionProtoClient} from "../../../core/OnionProtoClient";
 
-interface ContentControllerProps extends ContainerControllerProps{
+interface ContentControllerProps extends ContainerControllerProps {
+    contextSource: GlobalContextStore
 }
 
 export class ContentController {
-    wrapperProps: ContentControllerProps;
+    private props: ContentControllerProps;
+    contextSource: GlobalContextStore;
+
     constructor(wrapperProps: ContentControllerProps) {
-        this.wrapperProps = wrapperProps;
+        this.props = wrapperProps;
+        this.contextSource = this.props.contextSource;
     }
-    render():JSX.Element {
-        return <ContentWrapperComponent {...this.wrapperProps} />
+
+    getWrapperComponent(): JSX.Element {
+        return <ContentWrapperComponent {...this.props} contentDidMount={this.contentDidMount}/>
     }
+
+    contentDidMount = () => {
+        console.log("Content mounted!")
+        this.contextSource.refresh(this)
+    }
+
 }
-export class ContentWrapperComponent extends ContainerController {
-    constructor(props: ContentControllerProps) {
+
+export interface ContentWrapperHooks {
+    contentDidMount: () => void;
+}
+
+export class ContentWrapperComponent extends ContainerController<ContentControllerProps & ContentWrapperHooks> {
+    constructor(props: ContentControllerProps & ContentWrapperHooks) {
         super(props);
     }
 
     render(): ComponentChild {
-        return OnionProtoClient.view.createControllers(this.props.content);
+        return OnionProtoClient.view.createControllers(this.props.content, this.props.contextSource);
     }
 
-
+    componentDidMount() {
+        this.props.contentDidMount()
+    }
 }

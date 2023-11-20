@@ -1,6 +1,6 @@
 import {Subscribable} from "../../data/binding/private/Subscribable";
 import {IDataSource} from "../IDataSource";
-import {AbstractValue, iValue} from "../../data/values/IValue";
+import { iValue} from "../../data/values/IValue";
 import {CommunicationProtocol} from "../data/CommunicationProtocol";
 import {GlobalValueType, PropertyValueType} from "../../data/values/GlobalValueType";
 import {QueryProtocol} from "../data/QueryProtocol";

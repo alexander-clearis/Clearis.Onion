@@ -19,7 +19,7 @@ export class StringValueBinding<VProperties extends DisplayValueProperties_s = D
 
     //todo: implement formatting @Gerrit.
     getFormatted(): string | undefined {
-        throw new Error("This method has not been implemented")
+        return this.get();
     }
 }
 
