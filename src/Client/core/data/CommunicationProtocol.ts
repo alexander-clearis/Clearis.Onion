@@ -23,6 +23,8 @@ export abstract class CommunicationProtocol {
 
 export class MockCommunicationProtocol extends CommunicationProtocol {
     send<R extends GlobalValueType = GlobalValueType>(context: Context<R>): Promise<R> {
+
+
         if(context.endpoint == "/car1") {
             return Promise.resolve(
                 new MockObject("8168737873", {
@@ -31,6 +33,8 @@ export class MockCommunicationProtocol extends CommunicationProtocol {
 
             )
         }
+
+
 
         throw new Error(`This endpoint has not been implemented ${context.endpoint}`)
 

@@ -17,6 +17,7 @@ import BaseInputValueProperties = ValueBindingPropSpaces.BaseInputValuePropertie
 
 const pathSeparator = "/"
 
+
 export abstract class AbstractValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseDisplayValueProperties_1 = BaseDisplayValueProperties_1> extends Subscribable<Type> {
 
     protected pathBindingRecords: PathBindingRecord[];
@@ -96,9 +97,13 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
 
             //subscribe
             if (valueToRefresh.resolvesTo != undefined) {
+
+                //todo: this isn't stored!
                 valueToRefresh.resolvesTo.subscribe((value) => {
                     this.refresh(currentIndex)
                 })
+
+
             } else {
                 break
             }

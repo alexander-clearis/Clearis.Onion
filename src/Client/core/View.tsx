@@ -1,10 +1,9 @@
-import {Content} from "../ui/private/container/ContainerControllerProps";
 import {OnionProtoClient} from "./OnionProtoClient";
-import {ContentDefinition} from "./getPage/ContentDefinition";
+import {ComponentFactoryProps, Content, ContentDefinition} from "./getPage/ContentDefinition";
 import {GlobalContextStore} from "./context/GlobalContextStore";
 import {ContentController} from "../ui/private/page/ContentWrapperComponent";
 import {createElement, h, VNode} from "preact";
-import {BaseComponentProps, ComponentFactoryProps, SampleComponent} from "../ui/private/base/BasicViewController";
+import {BaseComponentProps} from "../ui/private/base/BasicViewController";
 import {ComponentConstructor, entries} from "../ui/public/_public_components";
 import {CommunicationProtocolEnum} from "./data/CommunicationProtocol";
 import {QueryLanguage} from "./data/QueryProtocol";
@@ -25,7 +24,8 @@ export class View {
         return new ContentController({
             content: contentDefinition.content,
             componentType: "ContentController",
-            contextSource: contentContext
+            contextSource: contentContext,
+            bindings: {}
         })
     }
 

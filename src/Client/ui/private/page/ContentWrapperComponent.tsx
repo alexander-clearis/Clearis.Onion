@@ -43,4 +43,8 @@ export class ContentWrapperComponent extends ContainerController<ContentControll
     componentDidMount() {
         this.props.contentDidMount()
     }
+
+    protected initBindings(): {} {
+        return {};
+    }
 }

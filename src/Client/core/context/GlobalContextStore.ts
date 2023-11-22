@@ -1,7 +1,7 @@
 import {IDataSource} from "../IDataSource";
 import {Context} from "./Context";
 import {GlobalValueType} from "../../data/values/GlobalValueType";
-import {ContextMap, ContextProperties} from "../getPage/ContentDefinition";
+import {ContextRecord, ContextProperties} from "../getPage/ContentDefinition";
 import {DataContext, ListContext} from "./DataContext";
 import { QueryProtocol} from "../data/QueryProtocol";
 import {CommunicationProtocol, getCommunicationProtocol} from "../data/CommunicationProtocol";
@@ -42,7 +42,7 @@ export class GlobalContextStore implements IDataSource {
             this.map[key] = new DataContext(contextProperties.end_point, getProtocol(contextProperties.queryProtocol) as QueryProtocol, getCommunicationProtocol(contextProperties.communicationProtocol));
         }
     }
-    createMap(contextMap: ContextMap) {
+    createMap(contextMap: ContextRecord) {
         for(let contextID in contextMap) {
             try {
                 this.create(contextID, contextMap[contextID]);

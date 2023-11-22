@@ -1,6 +1,7 @@
-import {Content} from "../../ui/private/container/ContainerControllerProps";
 import {QueryLanguage} from "../data/QueryProtocol";
 import {CommunicationProtocolEnum} from "../data/CommunicationProtocol";
+import {BaseComponentProps} from "../../ui/private/base/BasicViewController";
+import {BindingRecordBaseType} from "../../data/binding/public/BindingTypings";
 
 /**
  * @interface ContentDefinition - Represents the content, and context of a page or container.
@@ -13,14 +14,10 @@ export interface ContentDefinition {
     /**
      Represents the context, that should be accesible for the {@link content} *
      */
-    context: ContextMap
+    context:ContextRecord
 }
 
-export type ContextMap = {
-//todo: write TSDOC
-    [index: string]: ContextProperties
-}
-
+export type ContextRecord = Record<string, ContextProperties>
 export interface ContextProperties {
     end_point: string
     isList: boolean;
@@ -29,3 +26,25 @@ export interface ContextProperties {
 }
 
 
+/**
+ * Describes a key-value map, of components.
+ */
+export type Content = Record<string, ContentFactoryRecordType>
+export type ContentFactoryRecordType = ComponentFactoryProps
+
+export interface ComponentFactoryProps<K extends BindingRecordBaseType = {}> {
+    readonly componentType: string;
+    bindings: Record<keyof K, BindingProperties>
+
+
+}
+
+export interface BindingProperties {
+    path: string;
+}
+
+
+export enum BindingTypeEnum {
+    String,
+    Number
+}

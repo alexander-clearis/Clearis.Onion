@@ -10,6 +10,8 @@ export class DataContext extends Context<OnionObject> {
 }
 
 export class ListContext<Type extends PropertyValueType = PropertyValueType> extends Context<ValueSet<Type>> {
+
+
     get(id: string): iValue<Type> | undefined {
         if (this.value?.hasOwnProperty(id)) {
             return this.value[id]
@@ -18,4 +20,3 @@ export class ListContext<Type extends PropertyValueType = PropertyValueType> ext
         throw new ReferenceError(`ListContext doesn't have a value named: '${id}'`)
     }
 }
-

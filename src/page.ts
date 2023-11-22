@@ -1,13 +1,17 @@
-import {ContentDefinition} from "./Client/core/getPage/ContentDefinition";
+import {BindingTypeEnum, ContentDefinition} from "./Client/core/getPage/ContentDefinition";
 import {CommunicationProtocolEnum} from "./Client/core/data/CommunicationProtocol";
 import {QueryLanguage} from "./Client/core/data/QueryProtocol";
-import {ComponentFactoryProps} from "./Client/ui/private/base/BasicViewController";
+import {SampleProps} from "./Client/ui/public/SampleComponent";
 
 export const page: ContentDefinition = {
     content: {
         "123": {
             componentType: "SampleComponent",
-            value: "car1/name",
+            bindings: {
+                sampleValue1: {
+                    path: "car1/name",
+                }
+            }
         }
     },
     context: {
@@ -19,3 +23,5 @@ export const page: ContentDefinition = {
         }
     }
 }
+
+

@@ -1,8 +1,10 @@
-import {ISubscribable, SubscriberCallbackMethod} from "./ISubscribable";
+import {ISubscribable, SubscriberCallbackMethod, SubscriptionRegistration} from "./ISubscribable";
 import {GlobalValueType} from "../../values/GlobalValueType";
 
 
-export class Subscribable<Type extends GlobalValueType = GlobalValueType> implements ISubscribable {
+export class Subscribable<Type extends GlobalValueType = GlobalValueType> implements ISubscribable<Type> {
+
+
     private _registeredCallbacks: SubscriberCallbackMethod<Type>[] = []
 
     callSubscribers(value: Type | undefined) {
@@ -11,9 +13,9 @@ export class Subscribable<Type extends GlobalValueType = GlobalValueType> implem
         })
     }
 
-
-    subscribe(callback: SubscriberCallbackMethod<Type>) {
+    subscribe<ThisSubscriptionCallBackType extends SubscriberCallbackMethod<Type> = SubscriberCallbackMethod<GlobalValueType>>(callback: ThisSubscriptionCallBackType): [this, ThisSubscriptionCallBackType] {
         this._registeredCallbacks.push(callback)
+        return [this, callback];
     }
 
     unsubscribe(callback: SubscriberCallbackMethod<Type>) {

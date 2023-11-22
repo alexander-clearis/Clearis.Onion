@@ -1,43 +1,41 @@
 import {BaseComponentProps, BasicComponentState, BasicViewComponent} from "../private/base/BasicViewController";
-import {StringValueBinding} from "../../data/binding/public/StringValueBinding";
 import {ComponentChild, h} from "preact";
+import {BindingProperties} from "../../core/getPage/ContentDefinition";
+import {StringValueBinding} from "../../data/binding/public/StringValueBinding";
 
-export interface SampleProps extends BaseComponentProps {
-    value: string;
+export type SampleBindingMap = {
+    sampleValue1: StringValueBinding
+}
+export interface SampleProps extends BaseComponentProps<SampleBindingMap> {
+
 }
 
 export interface SampleState extends BasicComponentState {
     value?: string;
 }
 
-export class SampleComponent extends BasicViewComponent<SampleProps, SampleState> {
+export class SampleComponent extends BasicViewComponent<SampleBindingMap, SampleProps, SampleState> {
 
-    private stringProperty: StringValueBinding;
+
     constructor(props: SampleProps) {
         super(props);
-        this.stringProperty = new StringValueBinding(this.props.contextSource, this.props.value, {})
+
+    }
+
+    protected initBindings(): SampleBindingMap {
+        return {
+            sampleValue1: new StringValueBinding(this.props.contextSource, this.props.bindings.sampleValue1.path, {})
+        }
     }
 
     getRetrievalSchema(): void {
         throw Error("This method has not been implemented. (getRetrievalSchema)")
     }
 
-    componentDidMount() {
-        this.stringProperty.subscribe(this.subscriptionCallback)
-    }
-    componentWillUnmount() {
-        this.stringProperty.unsubscribe(this.subscriptionCallback)
-    }
-
-
-    subscriptionCallback = (value: string | undefined) => {
-        this.setState({value: value})
-    }
-
     render(): ComponentChild {
         return <div>
             <p>This is a Sample Component.</p>
-        <p>Value: {this.state.value ?? "undefined!"}</p>
+            <p>Value: {this.bindings.sampleValue1.getFormatted() ?? "undefined!"}</p>
         </div>;
     }
 }
