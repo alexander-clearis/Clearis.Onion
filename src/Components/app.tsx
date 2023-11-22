@@ -4,8 +4,9 @@ import {Component} from "preact";
 import {OnionProtoClient} from "../Client/core/OnionProtoClient";
 import {ContentController, ContentWrapperComponent} from "../Client/ui/private/page/ContentWrapperComponent";
 import React from 'preact/compat';
+import {page2} from "../page";
 
-interface AppState  {
+interface AppState {
     windowLocation: string;
     contentController: ContentController;
 }
@@ -14,7 +15,7 @@ class App extends Component<{}, AppState> {
 
     constructor() {
         super();
-        this.setWindowLocation(window.location.href)
+        OnionProtoClient.view.bindApp(this);
     }
 
     setWindowLocation(location: string) {
@@ -32,19 +33,15 @@ class App extends Component<{}, AppState> {
 
 
     render() {
-
         return (
             <div id="app">
                 <main>
                     <div class={"fixedhtml"}>
                         {
-                            window.location.href
+                            this.state.windowLocation
+                        }
 
-                        }
-                        <button onClick={() => {
-                        }
-                        }> Click me
-                        </button>
+                        <a href={"/plate"}> Click me</a>
 
                         <div>
 

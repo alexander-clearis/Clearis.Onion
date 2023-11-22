@@ -14,6 +14,4 @@ export type PropertyValueType = BaseValueType | OnionObject
 
 export type GlobalValueType = PropertyValueType | ValueSet;
 
-export type ValueSet<Type extends PropertyValueType = PropertyValueType> = {
-    [index: string]: iValue<Type>
-}
+export type ValueSet<Type extends PropertyValueType = PropertyValueType> = Record<string, iValue<Type>>

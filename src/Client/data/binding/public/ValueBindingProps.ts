@@ -1,22 +1,14 @@
-import {BaseValueType} from "../../values/GlobalValueType";
+import {BaseValueType, GlobalValueType, ValueSet} from "../../values/GlobalValueType";
 import {ValueUtils} from "../../values/ValueUtils";
 
 export namespace  ValueBindingPropSpaces {
 
+    const _r = null;
 
     import CaseTransformMethod = ValueUtils._String.CaseTransformMethod;
     import RegexReplaceType = ValueUtils._String.RegexReplaceType;
 
-    export interface parent {
-        p: string
-    }
-    export namespace internalSpace {
-        export const constant = "this is a constant"
-        export interface Bar extends parent{
-            hasAprop: string
-        }
 
-    }
     export type ValueScaleType = {};
     export type ValueFormatType = {};
 
@@ -27,7 +19,7 @@ export namespace  ValueBindingPropSpaces {
     }
 
 
-    export interface BaseInputValueProperties<Type extends BaseValueType = BaseValueType>  {
+    export interface BaseInputValueProperties<Type extends GlobalValueType = GlobalValueType>  {
         defaultValue?: Type
         required: boolean
         format?: ValueFormatType
@@ -56,5 +48,11 @@ export namespace  ValueBindingPropSpaces {
         maxValue: number
     }
 
+    export interface ListDisplayValueProperties extends BaseDisplayValueProperties {
 
+    }
+    export interface ListInputValueProperties extends ListDisplayValueProperties, BaseInputValueProperties<ValueSet> {
+        minValue: number
+        maxValue: number
+    }
 }

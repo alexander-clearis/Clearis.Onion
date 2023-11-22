@@ -1,5 +1,5 @@
 import {iValue} from "../values/IValue";
-import {IDataSource} from "../../core/IDataSource";
+import {iDatasource} from "../../core/IDatasource";
 
 export type ObjectID = string
 
@@ -8,7 +8,7 @@ export interface ObjectFields {
 }
 
 
-export class OnionObject implements IDataSource {
+export class OnionObject implements iDatasource {
     readonly discriminator = "IS_SOURCE";
 
     private readonly _ID: ObjectID

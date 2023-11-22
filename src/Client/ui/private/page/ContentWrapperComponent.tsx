@@ -17,11 +17,10 @@ export class ContentController {
     }
 
     getWrapperComponent(): JSX.Element {
-        return <ContentWrapperComponent {...this.props} contentDidMount={this.contentDidMount}/>
+        return <ContentWrapperComponent key={Math.round(Math.random() * 1000000)} {...this.props} contentDidMount={this.contentDidMount}/>
     }
 
     contentDidMount = () => {
-        console.log("Content mounted!")
         this.contextSource.refresh(this)
     }
 
@@ -37,7 +36,8 @@ export class ContentWrapperComponent extends ContainerController<ContentControll
     }
 
     render(): ComponentChild {
-        return OnionProtoClient.view.createControllers(this.props.content, this.props.contextSource);
+
+        return OnionProtoClient.view.createComponents(this.props.content, this.props.contextSource)
     }
 
     componentDidMount() {

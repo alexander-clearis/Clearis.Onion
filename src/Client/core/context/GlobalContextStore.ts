@@ -1,4 +1,4 @@
-import {IDataSource} from "../IDataSource";
+import {iDatasource} from "../IDatasource";
 import {Context} from "./Context";
 import {GlobalValueType} from "../../data/values/GlobalValueType";
 import {ContextRecord, ContextProperties} from "../getPage/ContentDefinition";
@@ -10,7 +10,7 @@ import {getProtocol} from "../data/query/PRQL_protocol";
 
 type ContextStore = { [index: string]: Context<any> }
 
-export class GlobalContextStore implements IDataSource {
+export class GlobalContextStore implements iDatasource {
     readonly discriminator = "IS_SOURCE";
     readonly map: ContextStore = {}
 
@@ -52,7 +52,6 @@ export class GlobalContextStore implements IDataSource {
         }
     }
     refresh(...params: any) {
-        console.log(...params)
         for (let contextID in this.map) {
             this.map[contextID].refresh()
         }

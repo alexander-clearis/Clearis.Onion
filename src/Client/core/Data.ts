@@ -1,4 +1,5 @@
 import {MockObject, ObjectID, OnionObject} from "../data/object/OnionObject";
+import {PropertyValue} from "../data/values/IValue";
 
 type DataResult = {
     objects: { [index: string]: dataObject }
@@ -53,58 +54,25 @@ export class Data {
     }
 
     constructor() {
-        // let owner1 = new MockObject("AAA", {
-        //     name: new PropertyValue("Bert")
-        // })
-        //
-        // let owner2 = new MockObject("BBB", {
-        //     name: new PropertyValue("Ernie")
-        // })
-        // let car1 = new MockObject("111222333", {
-        //     brand: new PropertyValue("Opel"),
-        //     plate: new PropertyValue("05-TL-TF"),
-        //     owner: new PropertyValue(owner1),
-        // })
-        // let car2 = new MockObject("999000999", {
-        //     brand: new PropertyValue("Mercedes"),
-        //     plate: new PropertyValue("01-AA-AA"),
-        //     owner: new PropertyValue(owner2),
-        // })
-        //
-        // let garage = new MockObject("123456789", {
-        //     name: new PropertyValue("De Autohandel"),
-        //     address: new PropertyValue("Keizersgracht 123 1015 CW Amsterdam"),
-        //     currentCar: new PropertyValue(car1)
-        // })
 
-        // this._store.set(garage.id, garage);
-        // this._store.set(car1.id, car1);
-        // this._store.set(car2.id, car2);
-        // this._store.set(owner1.id,owner1);
-        // this._store.set(owner2.id,owner2);
-    }
 
-    getGarage() {
-        return this.get("123456789")
-    }
+        let car1 = new MockObject("6413886411", {
+            brand: new PropertyValue("Opel"),
+            plate: new PropertyValue("05-TL-TF"),
+        })
+        let car2 = new MockObject("999000999", {
+            brand: new PropertyValue("Mercedes"),
+            plate: new PropertyValue("01-AA-AA"),
+        })
 
-    getOpel() {
-        return this.get("111222333")
-    }
+        let garage = new MockObject("537411687", {
+            name: new PropertyValue("De Autohandel"),
+            address: new PropertyValue("Keizersgracht 123 1015 CW Amsterdam"),
+            cars: new PropertyValue({car: new PropertyValue(car1), car2: new PropertyValue(car2)})
+        })
 
-    getMercedes() {
-        return this.get("999000999")
-    }
-
-    switchCar() {
-        let garage = this.getGarage();
-        if (garage) {
-
-            if (garage.get("currentCar").value == this.getMercedes()) {
-                garage.get("currentCar").value = this.getOpel();
-            } else {
-                garage.get("currentCar").value = this.getMercedes();
-            }
-        }
+        this._store.set(car1.id, car1);
+        this._store.set(car2.id, car2);
+        this._store.set(garage.id, garage);
     }
 }

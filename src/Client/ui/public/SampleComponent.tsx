@@ -6,6 +6,7 @@ import {StringValueBinding} from "../../data/binding/public/StringValueBinding";
 export type SampleBindingMap = {
     sampleValue1: StringValueBinding
 }
+
 export interface SampleProps extends BaseComponentProps<SampleBindingMap> {
 
 }
@@ -32,9 +33,9 @@ export class SampleComponent extends BasicViewComponent<SampleBindingMap, Sample
         throw Error("This method has not been implemented. (getRetrievalSchema)")
     }
 
+
     render(): ComponentChild {
-        return <div>
-            <p>This is a Sample Component.</p>
+        return <div onClick={() => console.log(this)}>
             <p>Value: {this.bindings.sampleValue1.getFormatted() ?? "undefined!"}</p>
         </div>;
     }

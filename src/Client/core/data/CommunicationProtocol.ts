@@ -1,7 +1,8 @@
 import {Context} from "../context/Context";
 import {GlobalValueType} from "../../data/values/GlobalValueType";
 import {MockObject, OnionObject} from "../../data/object/OnionObject";
-import {AbstractValue} from "../../data/values/IValue";
+import {PropertyValue} from "../../data/values/IValue";
+import {OnionProtoClient} from "../OnionProtoClient";
 
 
 /**
@@ -27,10 +28,11 @@ export class MockCommunicationProtocol extends CommunicationProtocol {
 
         if(context.endpoint == "/car1") {
             return Promise.resolve(
-                new MockObject("8168737873", {
-                    name: new AbstractValue<string>("BMW")
-                }) as R
-
+                OnionProtoClient.data.get("6413886411") as R
+            )
+        } else if (context.endpoint == "/cars"){
+            return Promise.resolve(
+                OnionProtoClient.data.get("537411687")?.get("cars").value as R
             )
         }
 

@@ -7,19 +7,25 @@ import {BaseComponentProps} from "../ui/private/base/BasicViewController";
 import {ComponentConstructor, entries} from "../ui/public/_public_components";
 import {CommunicationProtocolEnum} from "./data/CommunicationProtocol";
 import {QueryLanguage} from "./data/QueryProtocol";
-import {page} from "../../page";
+import {page, page2} from "../../page";
+import app from "../../Components/app";
+import App from "../../Components/app";
+import {iDatasource} from "./IDatasource";
 
 
 export class View {
+    public appLocation: string;
+    public app?: App;
 
     constructor() {
+        this.appLocation = window.location.origin
         this.createViewEventListeners()
     }
 
     public getContentController(key: string, contentDefinition: ContentDefinition): ContentController {
         const contentContext: GlobalContextStore = new GlobalContextStore();
         contentContext.createMap(contentDefinition.context);
-        console.log("New Content Controller created!")
+
         // todo: fix ComponentType!
         return new ContentController({
             content: contentDefinition.content,
@@ -29,7 +35,7 @@ export class View {
         })
     }
 
-    createControllers(content: Content, context: GlobalContextStore): VNode[] {
+    createComponents(content: Content, context: iDatasource): VNode[] {
         const result: VNode[] = []
         for (let componentID in content) {
             let componentFactoryProps = content[componentID];
@@ -50,7 +56,7 @@ export class View {
         }
     }
 
-    private wrapProperties<PropType extends ComponentFactoryProps>(componentFactoryProps: PropType, context: GlobalContextStore): PropType & BaseComponentProps {
+    private wrapProperties<PropType extends ComponentFactoryProps>(componentFactoryProps: PropType, context: iDatasource): PropType & BaseComponentProps {
         return {
             ...componentFactoryProps,
             contextSource: context
@@ -59,7 +65,7 @@ export class View {
 
 
     private createViewEventListeners() {
-
+        this.bind_captureHyperlinkClicks()
     }
 
     // todo: finish SPA
@@ -104,8 +110,7 @@ export class View {
             if (onClickTargetsInsideDomain(url)) {
                 cancelClick(event)
 
-                throw new Error("this doRoutingOnClick has not been implemented!")
-
+                this.app?.setWindowLocation(event.target.href)
                 // todo:
                 // open the page with url.pathname
                 // this.openPage(url.pathname)
@@ -115,8 +120,11 @@ export class View {
 
 
     getPage(location: string): Promise<ContentDefinition> {
-        console.log(`Get Page Request executed for: ${location}`)
-        return Promise.resolve(page)
+        if(location == this.appLocation + "/plate") {
+            return Promise.resolve(page2)
+        } else {
+            return Promise.resolve(page)
+        }
     }
 
     getPageController(location: string): Promise<ContentController> {
@@ -125,5 +133,10 @@ export class View {
         return this.getPage(location).then(contentDefinition => {
             return this.getContentController("location", contentDefinition)
         })
+    }
+
+    bindApp(app: App) {
+        this.app = app;
+        app.setWindowLocation(window.location.href)
     }
 }

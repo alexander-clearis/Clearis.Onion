@@ -1,11 +1,11 @@
 import {Subscribable} from "../../data/binding/private/Subscribable";
-import {IDataSource} from "../IDataSource";
+import {iDatasource} from "../IDatasource";
 import { iValue} from "../../data/values/IValue";
 import {CommunicationProtocol} from "../data/CommunicationProtocol";
 import {GlobalValueType, PropertyValueType} from "../../data/values/GlobalValueType";
 import {QueryProtocol} from "../data/QueryProtocol";
 
-export abstract class Context<Type extends GlobalValueType = GlobalValueType> extends Subscribable<Type> implements IDataSource, iValue<Type> {
+export abstract class Context<Type extends GlobalValueType = GlobalValueType> extends Subscribable<Type> implements iDatasource, iValue<Type> {
     readonly discriminator = "IS_SOURCE";
 
     value: Type | undefined;

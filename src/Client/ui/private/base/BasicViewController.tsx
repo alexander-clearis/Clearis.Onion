@@ -1,5 +1,5 @@
 import {Component, ComponentChild, h, RenderableProps} from "preact";
-import {IDataSource} from "../../../core/IDataSource";
+import {iDatasource} from "../../../core/IDatasource";
 import {BindingProperties, BindingTypeEnum, ComponentFactoryProps} from "../../../core/getPage/ContentDefinition";
 import {
     BindingRecordBaseType,
@@ -12,7 +12,7 @@ import {AbstractValueBinding} from "../../../data/binding/private/ValueBinding";
 
 
 export interface BaseComponentProps<BindingMap extends BindingRecordBaseType = {}> extends ComponentFactoryProps<BindingMap> {
-    contextSource: IDataSource
+    contextSource: iDatasource
 
 }
 
@@ -46,13 +46,13 @@ export abstract class BasicViewComponent<BindingMap extends BindingRecordBaseTyp
     subscribeToBindings() {
         for (let bindingKey in this.bindings) {
             let binding = this.bindings[bindingKey] as AbstractValueBinding;
-            this.addBindingSubscription(binding.subscribe(value => {
+            this.addSubscription(binding.subscribe(value => {
                 this.forceUpdate()
             }))
         }
     }
 
-    protected addBindingSubscription(registration: BindingSubscriptionReturnType) {
+    protected addSubscription(registration: BindingSubscriptionReturnType) {
         this.bindingSubscriptions?.push(registration)
     }
 

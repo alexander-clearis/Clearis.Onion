@@ -4,7 +4,7 @@ import {GlobalValueType} from "../../values/GlobalValueType";
 import {ValueUtils} from "../../values/ValueUtils";
 import GeneralValidationState = ValueUtils.Validation.GeneralValidationState;
 import GlobalValidationStateType = ValueUtils.Validation.GlobalValidationStateType;
-import {IDataSource, isSourceable} from "../../../core/IDataSource";
+import {iDatasource, isSourceable} from "../../../core/IDatasource";
 import {Subscribable} from "./Subscribable";
 
 import {ValueBindingPropSpaces} from "../public/ValueBindingProps";
@@ -17,18 +17,14 @@ import BaseInputValueProperties = ValueBindingPropSpaces.BaseInputValuePropertie
 
 const pathSeparator = "/"
 
-
 export abstract class AbstractValueBinding<Type extends GlobalValueType = GlobalValueType, ValuePropertyType extends BaseDisplayValueProperties_1 = BaseDisplayValueProperties_1> extends Subscribable<Type> {
 
     protected pathBindingRecords: PathBindingRecord[];
     protected endPoint?: iValue<Type>;
-
-    private _source: IDataSource;
-
+    private _source: iDatasource;
     private _query: string;
-
     protected properties: ValuePropertyType;
-    constructor(_source: IDataSource, _query: string, valueProperties: ValuePropertyType) {
+    constructor(_source: iDatasource, _query: string, valueProperties: ValuePropertyType) {
         super();
 
         this._source = _source;
@@ -51,7 +47,7 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
 
     //todo: optimize resubscribe, only on change
 
-    private getSource(index: number): IDataSource | undefined {
+    private getSource(index: number): iDatasource | undefined {
         if (index === 0) {
             return this._source;
         }
@@ -86,7 +82,6 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
         for (let currentIndex = refreshFromIndex; currentIndex < this.pathBindingRecords.length; currentIndex++) {
             let valueToRefresh = this.pathBindingRecords[currentIndex];
 
-
             //unsubscribe!
             if (valueToRefresh.onChange) {
                 valueToRefresh.resolvesTo?.unsubscribe(valueToRefresh.onChange);
@@ -118,7 +113,6 @@ export abstract class AbstractValueBinding<Type extends GlobalValueType = Global
     }
 
     public get(): Type | undefined {
-
         return this.endPoint?.value;
     }
 
