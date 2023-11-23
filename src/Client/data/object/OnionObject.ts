@@ -20,6 +20,8 @@ export class OnionObject implements iDatasource {
     protected _field: ObjectFields = {};
 
     get(property_name: string): iValue {
+        //todo: add loading state to proerties!
+        //todo: throw error
         return this._field[property_name]
     }
 

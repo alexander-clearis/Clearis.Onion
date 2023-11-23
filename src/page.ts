@@ -56,7 +56,7 @@ export const page2: ContentDefinition = {
             componentType: "SampleComponent",
             bindings: {
                 sampleValue1: {
-                    path: "car1/brand",
+                    path: "car1/brandd",
                 }
             }
         },

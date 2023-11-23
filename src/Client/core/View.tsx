@@ -7,26 +7,28 @@ import {BaseComponentProps} from "../ui/private/base/BasicViewController";
 import {ComponentConstructor, entries} from "../ui/public/_public_components";
 import {CommunicationProtocolEnum} from "./data/CommunicationProtocol";
 import {QueryLanguage} from "./data/QueryProtocol";
-import {page, page2} from "../../page";
-import app from "../../Components/app";
-import App from "../../Components/app";
+
 import {iDatasource} from "./IDatasource";
+import Page from "../../Components/Page";
 
 
 export class View {
-    public appLocation: string;
-    public app?: App;
-
+    private _page?: Page | null;
+    get page(): Page | null{
+        return this.page;
+    }
     constructor() {
-        this.appLocation = window.location.origin
-        this.createViewEventListeners()
+
     }
 
-    public getContentController(key: string, contentDefinition: ContentDefinition): ContentController {
+    bindPage(page: Page): void {
+        this._page = page;
+    }
+
+    public createContentController(contentDefinition: ContentDefinition): ContentController {
         const contentContext: GlobalContextStore = new GlobalContextStore();
         contentContext.createMap(contentDefinition.context);
 
-        // todo: fix ComponentType!
         return new ContentController({
             content: contentDefinition.content,
             componentType: "ContentController",
@@ -34,7 +36,6 @@ export class View {
             bindings: {}
         })
     }
-
     createComponents(content: Content, context: iDatasource): VNode[] {
         const result: VNode[] = []
         for (let componentID in content) {
@@ -47,96 +48,17 @@ export class View {
         }
         return result;
     }
-
-    public getComponentConstructor(ComponentName: string): ComponentConstructor {
+    private getComponentConstructor(ComponentName: string): ComponentConstructor {
         if (entries.hasOwnProperty(ComponentName)) {
             return entries[ComponentName]
         } else {
             throw new Error(`No constructor found for: ${ComponentName}  in constructor entries.`)
         }
     }
-
     private wrapProperties<PropType extends ComponentFactoryProps>(componentFactoryProps: PropType, context: iDatasource): PropType & BaseComponentProps {
         return {
             ...componentFactoryProps,
             contextSource: context
         }
-    }
-
-
-    private createViewEventListeners() {
-        this.bind_captureHyperlinkClicks()
-    }
-
-    // todo: finish SPA
-    // todo: test hyperlink clicks
-    private bind_captureHyperlinkClicks() {
-        window.addEventListener('click', event => {
-            this.doRoutingOnClick(event);
-        })
-    }
-
-
-    // todo: write doc, about SPA
-    private doRoutingOnClick(event: MouseEvent) {
-        type HTMLHyperlinkElement = HTMLAnchorElement | HTMLAreaElement | HTMLBaseElement | HTMLLinkElement
-
-        function onClickTargetsHyperlink(elem: EventTarget): elem is HTMLHyperlinkElement {
-            return elem instanceof HTMLAnchorElement || elem instanceof HTMLLinkElement || elem instanceof HTMLAreaElement || elem instanceof HTMLBaseElement
-        }
-
-        function onClickTargetsNewTab(event: MouseEvent): boolean {
-            return (event.ctrlKey)
-        }
-
-        function onClickTargetsInsideDomain(url: URL): boolean {
-            return (url.host === OnionProtoClient.host)
-        }
-
-        function cancelClick(event: MouseEvent): void {
-            event.preventDefault()
-            event.stopPropagation()
-            event.stopImmediatePropagation()
-        }
-
-
-        if (event.target
-            && onClickTargetsHyperlink(event.target)
-            && event.target.href
-            && !onClickTargetsNewTab(event)) {
-
-            const url = new URL(event.target.href)
-
-            if (onClickTargetsInsideDomain(url)) {
-                cancelClick(event)
-
-                this.app?.setWindowLocation(event.target.href)
-                // todo:
-                // open the page with url.pathname
-                // this.openPage(url.pathname)
-            }
-        }
-    }
-
-
-    getPage(location: string): Promise<ContentDefinition> {
-        if(location == this.appLocation + "/plate") {
-            return Promise.resolve(page2)
-        } else {
-            return Promise.resolve(page)
-        }
-    }
-
-    getPageController(location: string): Promise<ContentController> {
-        console.log(`New Page Controller Requested, to location ${location}`)
-
-        return this.getPage(location).then(contentDefinition => {
-            return this.getContentController("location", contentDefinition)
-        })
-    }
-
-    bindApp(app: App) {
-        this.app = app;
-        app.setWindowLocation(window.location.href)
     }
 }

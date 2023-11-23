@@ -1,6 +1,6 @@
 import {ContainerController, ContainerControllerProps} from "../container/ContainerControllerProps";
 import {GlobalContextStore} from "../../../core/context/GlobalContextStore";
-import {ComponentChild, h} from "preact";
+import {ComponentChild, h, VNode} from "preact";
 import {OnionProtoClient} from "../../../core/OnionProtoClient";
 
 interface ContentControllerProps extends ContainerControllerProps {
@@ -16,8 +16,15 @@ export class ContentController {
         this.contextSource = this.props.contextSource;
     }
 
-    getWrapperComponent(): JSX.Element {
-        return <ContentWrapperComponent key={Math.round(Math.random() * 1000000)} {...this.props} contentDidMount={this.contentDidMount}/>
+    renderContentSafe(): VNode | null {
+        let contentNode: VNode | null = null;
+        try {
+            contentNode = <ContentWrapperComponent key={Math.round(Math.random() * 1000000)} {...this.props} contentDidMount={this.contentDidMount}/>
+        } catch (e) {
+            console.log(e)
+        } finally {
+            return contentNode
+        }
     }
 
     contentDidMount = () => {

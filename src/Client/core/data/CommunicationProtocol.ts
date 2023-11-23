@@ -36,8 +36,6 @@ export class MockCommunicationProtocol extends CommunicationProtocol {
             )
         }
 
-
-
         throw new Error(`This endpoint has not been implemented ${context.endpoint}`)
 
 

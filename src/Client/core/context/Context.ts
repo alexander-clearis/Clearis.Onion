@@ -25,9 +25,14 @@ export abstract class Context<Type extends GlobalValueType = GlobalValueType> ex
     abstract get(id?: string): iValue | undefined
 
     refresh() {
-        this.communicationProtocol
-            .send<Type>(this)
-            .then(response => this.set(response))
+        try {
+            this.communicationProtocol
+                .send<Type>(this)
+                .then(response => this.set(response))
+        } catch (e) {
+            //todo: show failed refresh!
+            console.error(e);
+        }
     }
 
     set(value: Type) {
