@@ -17,7 +17,7 @@ export default class Page extends Component<{}, {}> {
         return <div>
             <ul>
                 <li>
-                    <a href={"/"}> index </a>
+                    <a href={"/"}> indexasdfasdf </a>
                 </li>
                 <li>
                     <a href={"/plate"}> /plate </a>

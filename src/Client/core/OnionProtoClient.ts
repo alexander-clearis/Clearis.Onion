@@ -7,7 +7,6 @@ export namespace OnionProtoClient {
     export const host: string = location.host;
     export const data: Data = new Data();
     export const view: View = new View()
-
     export const culture: Culture = new Culture()
 
 }

@@ -1,44 +1,27 @@
 {
 	"compilerOptions": {
-		"target": "es5",
-
-		"outFile": "./build/build.js",
-
-
-		"module": "esnext",
-		"moduleResolution": "node",
-
+		//language-level
+		"target": "ES6",
+		//how to import modules.
+		"moduleResolution": "Node",
 		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-
-		"resolveJsonModule": true,
-		"isolatedModules": false,
-
-
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
-		],
-
-
+		//coding preferences.
+		"strict": true,
+		"noImplicitAny": false,
+		//Necessary config to compile Preact.
+		//https://preactjs.com/guide/v10/typescript/#typescript-configuration
 		"jsx": "react",
 		"jsxFactory": "h",
 		"jsxFragmentFactory": "Fragment",
-		"noEmit": true,
+
 		"allowJs": true,
 		"checkJs": true,
-		"skipLibCheck": true,
+		//configure the output
 		"baseUrl": "./",
-		"paths": {
-			"react": ["./node_modules/preact/compat"],
-			"react-dom": ["./node_modules/preact/compat"]
-		},
-		"strict": true
+//		"outDir": "./build",
+		"sourceMap": true
 	},
-
 	"include": [
 		"src"
 	]
-
 }

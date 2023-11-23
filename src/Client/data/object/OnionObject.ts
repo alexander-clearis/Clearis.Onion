@@ -3,9 +3,7 @@ import {iDatasource} from "../../core/IDatasource";
 
 export type ObjectID = string
 
-export interface ObjectFields {
-    [index: string]: iValue;
-}
+export type FieldRecordType = Record<string, iValue>
 
 
 export class OnionObject implements iDatasource {
@@ -17,7 +15,7 @@ export class OnionObject implements iDatasource {
         return this._ID
     }
 
-    protected _field: ObjectFields = {};
+    protected _field: FieldRecordType = {};
 
     get(property_name: string): iValue {
         //todo: add loading state to proerties!
@@ -32,7 +30,7 @@ export class OnionObject implements iDatasource {
 
 
 export class MockObject extends OnionObject {
-    constructor(id: ObjectID, fields: ObjectFields) {
+    constructor(id: ObjectID, fields: FieldRecordType) {
         super(id);
         this._field = fields;
     }
