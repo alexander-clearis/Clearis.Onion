@@ -2,7 +2,6 @@ import {Context} from "./Context";
 import {OnionObject} from "../../data/object/OnionObject";
 import {iValue} from "../../data/values/IValue";
 import {PropertyValueType, ValueSet, GlobalValueType} from "../../data/values/GlobalValueType";
-import * as http from "http";
 
 export class DataContext extends Context<OnionObject> {
     get(id: string): iValue | undefined {

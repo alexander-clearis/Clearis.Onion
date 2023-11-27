@@ -17,9 +17,8 @@ export class Data {
     get(id: ObjectID[]): OnionObject[] | undefined
     get(id: ObjectID): OnionObject | undefined
     get(id: ObjectID | ObjectID[]): OnionObject | OnionObject[] | undefined {
-        let result: OnionObject | OnionObject[] | undefined;
+        let result;
         if (isSingleObjectID(id)) {
-
             try {
                 result = this.getObjectFromStore(id);
             } catch (e) {
@@ -27,7 +26,7 @@ export class Data {
             }
 
         } else {
-            let resultArray = [];
+            result = [];
             id.forEach(id => {
                 let objectFromStore;
 
@@ -37,7 +36,7 @@ export class Data {
                     console.error(e)
                 }
                 if (objectFromStore) {
-                    resultArray.push(objectFromStore)
+                    result.push(objectFromStore)
                 }
             })
         }

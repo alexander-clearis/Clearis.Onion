@@ -5,7 +5,6 @@ import {ContextRecord, ContextProperties} from "../getPage/ContentDefinition";
 import {DataContext, ListContext} from "./DataContext";
 import { QueryProtocol} from "../data/QueryProtocol";
 import {CommunicationProtocol, getCommunicationProtocol} from "../data/CommunicationProtocol";
-import * as querystring from "querystring";
 import {getProtocol} from "../data/query/PRQL_protocol";
 
 type ContextStore = { [index: string]: Context<any> }
